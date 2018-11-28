@@ -1,0 +1,10 @@
+﻿{
+  "authEndPoint":"http://10.130.141.37/questionari-commissari/",
+  "application_id": "54",
+  "dataEndPoint": "http://10.130.141.37/questionari-commissari/",
+  "registrationRedirect": "http://servizi.pre.anticorruzione.it/",
+  "lineaGuidaUrl": "http://www.anticorruzione.it/portal/rest/jcr/repository/collaboration/Digital%20Assets/anacdocs/Attivita/Atti/determinazioni/2016/1190/del.1190.2016.Det.lg.5.al.pdf",
+  "tipoQuestionario": 1000,
+  "manualeUtenteUrl": "api/file/manualeUtente",
+  "forms" : []
+}

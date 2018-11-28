@@ -1,0 +1,180 @@
+<td-layout-nav logo="assets:logo" navigationRoute="/" >
+  <button mat-icon-button td-menu-button tdLayoutToggle>
+    <mat-icon>menu</mat-icon>
+  </button>
+  <div td-toolbar-content layout="row" layout-align="center center" flex>
+    <span>{{toolbarTitle}} </span>
+    <span flex></span>
+    <td-toolbar td-toolbar-content flex layout="row"></td-toolbar>
+  </div>
+
+  <td-layout-card-over cardTitle="Consultazioni delle iscrizioni" cardSubtitle="cerca tra le iscrizioni pubblicate" >
+    <mat-card-content>
+      <div layout="row">
+        <!--
+        <mat-form-field>
+              <mat-select placeholder="Tipo ricerca" [(value)]="selectedSearch" (selectionChange)="tipoDocumentoChanged($event)">
+                      <mat-option *ngFor="let doc of tipoSearch" [value]="doc.value">
+                        {{ doc.viewValue }}
+                      </mat-option>
+                    </mat-select>
+        </mat-form-field>
+       -->
+        <mat-form-field  (keyup.enter) = "doSearch(searchTerm, selectedSearch)" flex>
+          <input matInput placeholder="argomento cercato..."  [disabled]="disabled" [(ngModel)]='searchTerm' />
+        </mat-form-field>
+        <button mat-button *ngIf="tokens"  (click)="searchTerm=''" (keyup.enter)="searchTerm = ''">
+          <mat-icon>cancel</mat-icon>
+        </button>
+        <span>
+          <button mat-button color="accent" [disabled]="!searchTerm" class="text-upper" (click)="doSearch(searchTerm, selectedSearch)">Cerca</button>
+        </span>
+      </div>
+      <div layout="row">
+         <!--Sezione chip-->
+         <td-chips color="accent"
+         [items]="filteredSezioniAutocomplete"
+         [(ngModel)]="sezioniStringsModel"
+         placeholder="Sezione"
+         (inputChange)="filterSezioniStrings($event)"
+         requireMatch flex>
+       <ng-template td-chip let-chip="chip">
+         <mat-icon>view_agenda</mat-icon> {{chip.label}}
+       </ng-template>
+       <ng-template td-autocomplete-option let-option="option">
+         <div layout="row" layout-align="start center">
+           <mat-icon>view_agenda</mat-icon> {{option.label}}
+       </div>
+     </ng-template>
+       </td-chips>
+      </div>
+      <div layout="row">
+        <!--sottosezione chip-->
+               <!--Sezione chip-->
+               <td-chips color="accent"
+               [items]="filteredSottoSezioniAutocomplete"
+               [(ngModel)]="sottoSezioniStringsModel"
+               placeholder="Sottosezione"
+               (inputChange)="filtersottoSezioniStrings($event)"
+               requireMatch flex>
+             <ng-template td-chip let-chip="chip">
+               <mat-icon>view_headline</mat-icon> {{chip.label}}
+             </ng-template>
+             <ng-template td-autocomplete-option let-option="option">
+               <div layout="row" layout-align="start center">
+                 <mat-icon>view_headline</mat-icon> {{option.label}}
+             </div>
+           </ng-template>
+             </td-chips>
+            <!--sottosezione chip-->
+      </div>
+      <div layout="row">
+               <!--Sezione chip-->
+               <td-chips color="accent"
+               [items]="filteredLivelliEsperienzaAutocomplete"
+               [(ngModel)]="livelliEseperienzaStringsModel"
+               placeholder="Livello esperienza"
+               (inputChange)="filterlivelliEsperienzaStrings($event)"
+               requireMatch flex>
+             <ng-template td-chip let-chip="chip">
+               <mat-icon>work</mat-icon> {{chip}}
+             </ng-template>
+             <ng-template td-autocomplete-option let-option="option">
+               <div layout="row" layout-align="start center">
+                 <mat-icon>work</mat-icon> {{option}}
+             </div>
+           </ng-template>
+             </td-chips>
+            <!--sottosezione chip-->
+      </div>
+      <div class="md-padding" layout-align="start center" flex>
+        <ng-template tdLoading="consultazioni.search">
+        <div class="md-padding" *ngIf="!dataTable.hasData" layout="row" layout-align="center center">
+          <h3>Non ci sono risultati delle ricerca.</h3>
+        </div>
+        <td-data-table
+          #dataTable
+          [data]="filteredData"
+          [columns]="columns"
+          [selectable]="selectable"
+          [clickable]="clickable"
+          [multiple]="multiple"
+          [sortable]="true"
+          [sortBy]="sortBy"
+          [(ngModel)]="selectedRows"
+          [sortOrder]="sortOrder"
+          (sortChange)="sort($event)"
+          (rowClick)="showAlert($event)"
+          [style.height.px]="500">
+          <ng-template tdDataTableTemplate="rawData.numero" let-value="value">
+              <div layout="row">
+                  <span flex>{{value}}</span>
+              </div>
+          </ng-template>
+          <ng-template tdDataTableTemplate="rawData.datiPersonali.nome" let-value="value">
+              <div layout="row">
+                  <span flex>{{value}}</span>
+              </div>
+          </ng-template>
+          <ng-template tdDataTableTemplate="rawData.datiPersonali.cognome" let-value="value">
+              <div layout="row">
+                  <span flex>{{value}}</span>
+              </div>
+          </ng-template>
+          <ng-template tdDataTableTemplate="rawData.datiPersonali.dataDiNascitaString" let-value="value">
+              <div layout="row">
+                    <span flex>{{value}}</span>
+              </div>
+          </ng-template>
+          <ng-template tdDataTableTemplate="rawData.datiPersonali.comunenascita" let-value="value">
+              <div layout="row">
+                  <span flex>{{value}}</span>
+              </div>
+          </ng-template>
+          <ng-template tdDataTableTemplate="rawData.sezioni" let-value="value">
+              <div layout="row">
+                  <ng-template let-sezione let-last="last" ngFor [ngForOf]="value">
+                  <span flex>{{sezione.nome }}</span><span *ngIf="!last"> ;</span>
+                </ng-template>
+              </div>
+          </ng-template>
+          <ng-template tdDataTableTemplate="rawData.sottosezioni" let-value="value">
+              <div layout="row">
+                  <ng-template let-sottosezione let-last="last" ngFor [ngForOf]="value" >
+                      <p flex matTooltip={{sottosezione.esperienza}}>{{sottosezione.nome }}</p><p *ngIf="!last"> ; </p>
+                  </ng-template>
+              </div>
+          </ng-template>
+          <ng-template tdDataTableTemplate="rawData" let-value="value">
+            <div layout="row">
+              <button mat-icon-button (click)="seeData(value)" ><mat-icon  matTooltip="Visualizza dati">visibility</mat-icon></button>
+            </div>
+        </ng-template>
+        </td-data-table>
+        <td-paging-bar #pagingBar [pageSize]="pageSize" [total]="filteredTotal" (change)="page($event)">
+          <span hide-xs>Righe per pagina:</span>
+          <mat-select [style.width.px]="50" [(ngModel)]="pageSize">
+            <mat-option *ngFor="let size of [50,100,200,500]" [value]="size">
+              {{size}}
+            </mat-option>
+          </mat-select>
+          {{pagingBar.range}} <span hide-xs>of {{pagingBar.total}}</span>
+        </td-paging-bar>
+      </ng-template>
+    </div>
+
+    </mat-card-content>
+  </td-layout-card-over>
+
+
+  <td-layout-footer color="primary" tdMediaToggle="xs" [mediaClasses]="['text-center']">
+    <div layout-gt-xs="row" layout-align="start center">
+      <div class="mat-caption">{{copyrightString}} </div>
+      <span flex></span>
+      <div layout-gt-xs="row">
+        <a href="http://www.anticorruzione.it/portal/public/classic/Servizi" target="_blank" mat-button class="text-upper">Servizi</a>
+        <a href="http://www.anticorruzione.it" target="_blank" mat-button class="text-upper">Home</a>
+      </div>
+    </div>
+  </td-layout-footer>
+</td-layout-nav>

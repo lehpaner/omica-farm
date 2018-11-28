@@ -1,0 +1,79 @@
+<td-layout-nav logo="assets:logo" navigationRoute="/">
+    <button mat-icon-button td-menu-button tdLayoutToggle>
+      <mat-icon>menu</mat-icon>
+    </button>
+    <div td-toolbar-content layout="row" layout-align="center center" flex>
+      <span>Albo nazionale dei componenti delle commissioni giudicatrici </span>
+      <span flex></span>
+      <td-toolbar td-toolbar-content flex layout="row"></td-toolbar>
+    </div>
+    <td-layout-card-over cardTitle="Allegati iscrizione" cardSubtitle="gestione allegati iscrizione" >
+            <mat-card-content *ngIf="(iscrizioneStatus !== 30)&&(isSospeso===false)&&(isCancellato===false)">
+                    <div layout="row">
+                      <mat-form-field>
+                            <mat-select placeholder="Tipo documento" [(value)]="selectedTipoDoc" (selectionChange)="tipoDocumentoChanged($event)">
+                                    <mat-option *ngFor="let doc of tipoDocumento" [value]="doc.value">
+                                      {{ doc.viewValue }}
+                                    </mat-option>
+                                  </mat-select>
+                      </mat-form-field>
+                      <mat-form-field tdFileDrop
+                                          [disabled]="disabled"
+                                          (fileDrop)="files = $event"
+                                          (click)="fileInput.inputElement.click()"
+                                          (keyup.enter)="fileInput.inputElement.click()"
+                                          (keyup.delete)="fileInput.clear()"
+                                          (keyup.backspace)="fileInput.clear()"
+                                          flex>
+                        <input matInput
+                               placeholder="seleziona documento..."
+                               [value]="files?.length ? (files?.length + ' files') : files?.name"
+                               [disabled]="disabled"
+                               readonly/>
+                      </mat-form-field>
+                      <button mat-button *ngIf="files" (click)="fileInput.clear()" (keyup.enter)="fileInput.clear()">
+                        <mat-icon>cancel</mat-icon>
+                      </button>
+                      <td-file-input mat-button style="display: none;"  #fileInput [(ngModel)]="files" multiple [disabled]="disabled" accept=".doc, .p7m, .pdf" >
+                        <mat-icon>folder</mat-icon>
+                        <span class="text-upper">Documento</span>
+                      </td-file-input>
+                      <span>
+                        <button mat-button color="accent" [disabled]="!files" class="text-upper" (click)="upload(files, selectedTipoDoc)">Allega</button>
+                      </span>
+                    </div>
+          </mat-card-content>
+        <mat-divider></mat-divider>
+        <ng-template tdLoading="allegati.form">
+        <mat-list class="will-load">
+          <div class="pad" *ngIf="documenti?.length === 0" layout="row" layout-align="center center">
+            <button mat-icon-button (click)="initialGenerate()" > <mat-icon>archive</mat-icon> Genera documento iscrizione</button>
+          </div>
+          <ng-template let-documento let-last="last" ngFor [ngForOf]="documenti">
+            <mat-list-item>
+              <mat-icon matListAvatar>insert_drive_file</mat-icon>
+              <h3 matLine>{{getTipoDocumentoPerValue(documento['tipoFile'])}} </h3>
+              <p matLine *ngIf="(documento.tipoFile == '20') && !hasFirma" > {{ firmaMessage}} </p>
+              <p matLine *ngIf="(documento.tipoFile == '20') && hasFirma" > Firmato da: {{ firmaCognome}} {{firmaNome}}  con il codice fiscale: {{firmaCF}} </p>
+              <span hide-xs hide-sm hide-md flex-gt-xs="60" flex-xs="40" layout-gt-xs="row">
+                  <div class="mat-caption tc-grey-500" flex-gt-xs="50">  </div>
+              </span>
+              <span flex></span>
+              <button mat-icon-button cl><mat-icon (click)="getDocument(documento)" matTooltip="Scarica documento da repository">file_download</mat-icon></button>
+              <button mat-icon-button *ngIf="(documento.tipoFile == 20)" (click)="verificaFirma()"><mat-icon  matTooltip="Controlla firma digitale">done</mat-icon></button>
+          </mat-list-item>
+            <mat-divider *ngIf="!last" [inset]="true"></mat-divider>
+        </ng-template>
+        </mat-list>
+        <mat-divider></mat-divider>  	  
+        <mat-card-actions class="bottoniera">
+            <span flex></span>
+            <button mat-button (click)="goBack()">CHIUDI</button>
+            <span flex></span>
+            <button mat-button (click)="reloadPage()">RICARICA</button>
+            <span flex></span>
+          </mat-card-actions>
+        </ng-template>
+      </td-layout-card-over>
+
+</td-layout-nav>

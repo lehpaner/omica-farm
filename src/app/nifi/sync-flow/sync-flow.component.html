@@ -1,0 +1,37 @@
+<mat-toolbar>
+    <mat-toolbar-row>
+        <div td-toolbar-content layout="row" layout-align="start center" flex>
+            <span>Flow</span>
+            <span flex></span>
+            <button mat-icon-button><mat-icon>view_module</mat-icon></button>
+            <button mat-icon-button><mat-icon>sort</mat-icon></button>
+            <button mat-icon-button><mat-icon>settings</mat-icon></button>
+            <button mat-icon-button><mat-icon>more_vert</mat-icon></button>
+        </div>
+    </mat-toolbar-row>
+</mat-toolbar>
+<mat-card class="push-bottom-xxl" tdMediaToggle="gt-xs" [mediaClasses]="['push']">
+    <!-- [alwaysVisible]="true"-->
+    <td-search-box class="push-left push-right" placeholder="Nome documento" (searchDebounce)="filterDocuments($event)"></td-search-box>
+    <ng-template tdLoading="document.list">    </ng-template>
+        <mat-divider></mat-divider>
+        <mat-list class="will-load">
+            <div class="pad" *ngIf="filteredDocuments?.length === 0" layout="row" layout-align="center center">
+                <h3>No documents to display.</h3>
+            </div>
+            <ng-template let-document let-last="last" ngFor [ngForOf]="filteredDocuments">
+                <mat-list-item>
+                    <mat-icon matListAvatar>document</mat-icon>
+                    <h3 matLine> {{document.nome}} </h3>
+                    <p matLine> {{document.descrizione}} </p>
+                        <span flex>
+                            <button mat-icon-button cl ><mat-icon class="orange" (click)="goToEdit(document.nome)" matTooltip="Modifica documento" >edit</mat-icon></button>
+                            <button mat-icon-button cl ><mat-icon class="red"  (click)="delete(document.nome)" matTooltip="Cancella documento" >delete</mat-icon></button>
+                        </span>
+                </mat-list-item>
+                <mat-divider *ngIf="!last" [inset]="true"></mat-divider>
+            </ng-template>
+        </mat-list>
+        <mat-divider></mat-divider>
+        <qs-flow-view #flusso [flow]="flow"></qs-flow-view>
+</mat-card>

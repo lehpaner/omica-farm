@@ -1,0 +1,27 @@
+<td-layout-card-over cardTitle="Modifica utente {{id}}" cardSubtitle="Modifica stato dell'utente" >
+    <mat-card-content>
+        <form #userForm="ngForm">
+            <div layout="row">
+              <mat-form-field flex> 
+                      <mat-select placeholder="Stato Utente" [(value)]="userStatus" (selectionChange)="userStatusChanged($event)">
+                              <mat-option *ngFor="let stato of statiUtente" [value]="stato.value">
+                                {{ stato.viewValue }}
+                              </mat-option>
+                            </mat-select>
+                </mat-form-field>
+            </div>
+            <!--
+            <div layout="row">
+                <mat-slide-toggle [(ngModel)]="admin" name="admin">Utente amministrativo</mat-slide-toggle>
+              </div>-->
+        </form>
+    </mat-card-content>
+    <mat-divider></mat-divider>  	  
+    <mat-card-actions class="bottoniera">
+            <span flex></span>
+            <button mat-button (click)="save()">SALVA E CHIUDI</button>
+            <span flex></span>
+            <button mat-button (click)="goBack()">CHIUDI</button>
+            <span flex></span>
+    </mat-card-actions>
+</td-layout-card-over>

@@ -1,0 +1,48 @@
+<div layout="column" layout-fill>
+  <mat-toolbar color="primary" class="mat-whiteframe-z1">
+    <mat-toolbar-row>
+	  <mat-icon class="mat-icon-logo" svgIcon="assets:logo"></mat-icon>
+    <span>{{toolbarTitle}} </span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <div class="mat-content" layout-padding flex>
+    <div layout-gt-xs="row" layout-align-gt-xs="center start" class="margin">
+      <div flex-gt-xs="50">
+        <mat-card tdMediaToggle="gt-xs" [mediaClasses]="['push-top-lg']">
+          <mat-card-title>Application</mat-card-title>
+          <mat-card-subtitle>accesso mediante codice utente e password</mat-card-subtitle>
+          <mat-divider></mat-divider>
+          <mat-card-content>
+            <form #loginForm="ngForm">
+              <div layout="row">
+                <mat-form-field flex> 
+                  <input matInput #userElement #userControl="ngModel" placeholder="Utente" type="text" maxlength="50" name="username" [(ngModel)]="username" required>
+                  <span matPrefix><mat-icon>person</mat-icon></span>
+                  <mat-hint align="start">
+                    <span [hidden]="!userControl.errors?.required || userControl.pristine" class="tc-red-600">Required</span>
+                  </mat-hint>
+                  <mat-hint align="end">email</mat-hint>
+                </mat-form-field>
+              </div>
+              <div layout="row">
+                <mat-form-field flex (keyup.enter) = "doLogin()"> 
+                  <input matInput #passElement #passControl="ngModel" placeholder="Password" type="password" name="password" [(ngModel)]="password" required>
+                  <span matPrefix><mat-icon>lock</mat-icon></span>
+                  <mat-hint align="start">
+                    <span [hidden]="!passControl.errors?.required || passControl.pristine" class="tc-red-600">Required</span>
+                  </mat-hint>
+                  <mat-hint align="end">password</mat-hint>
+                </mat-form-field>
+              </div>
+            </form>
+          
+          </mat-card-content>
+          <mat-divider></mat-divider>
+          <mat-card-actions layout="row">
+            <button flex mat-raised-button color="accent" [disabled]="!loginForm.form.valid" (click)="doLogin()">Accedi</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>    
+  </div>
+</div>

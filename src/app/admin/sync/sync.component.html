@@ -1,0 +1,31 @@
+<mat-toolbar>
+    <mat-toolbar-row>
+        <div td-toolbar-content layout="row" layout-align="start center" flex>
+            <span>Scambio dati</span>
+            <span flex></span>
+        </div>
+    </mat-toolbar-row>
+</mat-toolbar>
+<mat-card class="push-bottom-xxl" tdMediaToggle="gt-xs" [mediaClasses]="['push']">
+    <mat-divider></mat-divider>
+    <ng-template tdLoading="flow.list">
+        <mat-list class="will-load">
+            <div class="pad" *ngIf="filteredProcessors?.length === 0" layout="row" layout-align="center center">
+                <h3>No documents to display.</h3>
+            </div>
+            <ng-template let-processor let-last="last" ngFor [ngForOf]="filteredProcessors">
+                <mat-list-item>
+                    <qs-processor-item [data]="processor"></qs-processor-item>
+                    <mat-icon matListAvatar>document</mat-icon>
+                    <h3 matLine>{{processor['component']['name']}}</h3>
+                    <p matLine>{{processor['id']}} </p>
+                    <span flex></span>
+                </mat-list-item>
+                <mat-divider *ngIf="!last" [inset]="true"></mat-divider>
+            </ng-template>
+        </mat-list>
+    </ng-template>
+    <!--
+    <mat-divider></mat-divider>
+    <qs-flow-view #flusso [flow]="datiFlusso"></qs-flow-view>-->
+</mat-card>
