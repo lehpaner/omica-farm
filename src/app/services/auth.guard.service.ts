@@ -18,10 +18,10 @@ export class AuthGuardService implements CanActivate {
         return this.checkLogin(url);
       }
     checkLogin(url: string): boolean {
-        if (this._appCtx.isLogged()) {
+       // if (this._appCtx.isLogged()) {
             return true;
-        }
-        this.router.navigate(['/login'], { queryParams: { redirectTo: url } });
-        return false;
+      //  }
+       // this.router.navigate(['/login'], { queryParams: { redirectTo: url } });
+       // return false;
     }
 }

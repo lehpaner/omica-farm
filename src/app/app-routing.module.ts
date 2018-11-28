@@ -26,6 +26,7 @@ const routes: Routes = [
                // canActivate: [ AuthGuardService ],
             },
             { path: '', loadChildren: './admin/admin.module#AdminModule' },
+            { path: '', loadChildren: './farms/farms.module#FarmsModule' },
 			{ path: '', loadChildren: './iscrizione/iscrizione.module#IscrizioneModule' },
             { path: '', loadChildren: './docs/docs.module#DocsModule' },
         ],

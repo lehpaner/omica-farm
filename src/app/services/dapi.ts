@@ -152,6 +152,21 @@ public nodeGetChildren(parent: string) : Promise<IResultRestModel> {
         return result;
     });
 }
+
+public nodeGetChildrenOfType(parent: string, type: Number) : Promise<IResultRestModel> {
+    return this.db.collection("DATAREP").where("PARENT", "==", parent).where("SUBTYPE", "==", type).get().
+    then((dbresult) => {
+          return this.re2Result(dbresult);
+        }).catch((error)=>{
+        let result: IResultRestModel  = { 
+            result:'ERROR',
+            errorNumber: -1,
+            message: error.message,
+            data: null
+        };
+        return result;
+    });
+}
 public nodeGetAsync(query: INodeWhere[], order:string, limit: number, startAt: number) : Promise<IResultRestModel> {
     
     //let q:firebase.firestore.CollectionReference = this.db.collection("DATAREP");
