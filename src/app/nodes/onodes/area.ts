@@ -1,14 +1,14 @@
 import {Node} from '../model/node';
 import { NodeFactory } from  '../services/node-factory.service'
 
-export class Workspace extends Node {
+export class Area extends Node {
     
     constructor(private _factory: NodeFactory) {
-        super('Workspace', _factory);
-		this.name = 'Workspace';
-		this.subtype = 1145;
+        super('Area', _factory);
+		this.name = 'Area';
+		this.subtype = 2001;
 		this.status = 0;
 		this.children = [];
 		this.extendedData = {};
-	}
+    }
 }

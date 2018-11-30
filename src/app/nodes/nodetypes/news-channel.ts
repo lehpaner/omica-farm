@@ -1,12 +1,12 @@
 import {Node} from '../model/node';
 import { NodeFactory } from  '../services/node-factory.service'
 
-export class Workspace extends Node {
+export class NewsChannel extends Node {
     
     constructor(private _factory: NodeFactory) {
-        super('Workspace', _factory);
-		this.name = 'Workspace';
-		this.subtype = 1145;
+        super('NewsChannel', _factory);
+		this.name = 'NewsChannel';
+		this.subtype = 1150;
 		this.status = 0;
 		this.children = [];
 		this.extendedData = {};

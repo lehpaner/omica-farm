@@ -3,15 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: true,
-  firebase: {
-    apiKey: 'AIzaSyAJZ1spjq9VVRrtr1W2eEoveb8ovq5ts7w',
-    authDomain: 'texla-anzio.firebaseapp.com',
-    databaseURL: 'https://texla-anzio.firebaseio.com',
-    projectId: 'texla-anzio',
-    storageBucket: 'texla-anzio.appspot.com',
-    messagingSenderId: '265908819571'
-  }
+  production: true
 };
 
 /*

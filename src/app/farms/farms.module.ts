@@ -34,20 +34,21 @@ import { CovalentDynamicFormsModule } from '@covalent/dynamic-forms';
 
 
 import { FarmsComponent } from './farms.component';
+import { FarmViewComponent } from './view/farm.view.component'
+import { FarmEditComponent } from './edit/farm.edit.component'
+import { farmsRoutes } from './farms.routes';
+import { FarmsService} from './services/farms.service';
+import { ToolbarModule } from '../common/toolbar/toolbar.module';
+import { AnacDateAdapter, ANAC_DATE_FORMATS } from '../common/date-adapter';
+
 import { IscrizioneFormComponent } from './form/form.component';
 import { DocsComponent } from './docs/docs.component';
-import { farmsRoutes } from './farms.routes';
-
-import { FarmsService} from './services/farms.service';
-
-export { FarmsComponent, IscrizioneFormComponent, FarmsService};
-import { ToolbarModule } from '../common/toolbar/toolbar.module';
-
-import { AnacDateAdapter, ANAC_DATE_FORMATS } from '../common/date-adapter';
 
 @NgModule({
   declarations: [
     FarmsComponent,
+    FarmEditComponent,
+    FarmViewComponent,
     IscrizioneFormComponent,
     DocsComponent,
   ], // directives, components, and pipes owned by this NgModule

@@ -39,3 +39,4 @@ Thumbs.db
 ##########
 .vscode
 node_modules
+dist
