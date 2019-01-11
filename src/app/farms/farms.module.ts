@@ -34,6 +34,7 @@ import { CovalentDynamicFormsModule } from '@covalent/dynamic-forms';
 
 
 import { FarmsComponent } from './farms.component';
+import { FarmOverviewComponent } from './view/farm.overview.component'
 import { FarmViewComponent } from './view/farm.view.component'
 import { FarmEditComponent } from './edit/farm.edit.component'
 import { farmsRoutes } from './farms.routes';
@@ -47,6 +48,7 @@ import { DocsComponent } from './docs/docs.component';
 @NgModule({
   declarations: [
     FarmsComponent,
+    FarmOverviewComponent,
     FarmEditComponent,
     FarmViewComponent,
     IscrizioneFormComponent,

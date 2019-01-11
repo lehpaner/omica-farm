@@ -76,7 +76,11 @@ public signup(email: string, password: string): Promise<firebase.User> {
         this.fireAuthEvent(this.currentUser, null, null);
         console.log('Success!', value);
         return value.user;
-    }).catch(err => {
+    })
+    .then((u:firebase.User)=> {
+        u.sendEmailVerification().then(()=>{console.log('sent verification mail to:', u.email);});
+    })
+    .catch(err => {
         console.log('Something went wrong:', err.message);
         return null;
     });    
@@ -104,13 +108,15 @@ public logout(): Promise<any> {
 }
 //User is anonimus or logged
 public isLogged(): boolean {
-       if (isUndefined(this.currentUser)) {
-        return false; }
-        return !this.currentUser.isAnonymous;
+    var user = firebase.auth().currentUser;
+    if (user===null) {
+        return false; 
+    }
+    return !user.isAnonymous;
     }
 //Current user
 public getCurrentUser(): firebase.User {
-        return this.currentUser;
+        return firebase.auth().currentUser;
     }
 
 public getAccessToken(): string {

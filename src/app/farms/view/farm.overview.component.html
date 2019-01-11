@@ -1,0 +1,89 @@
+<td-layout-nav logo="assets:logo_o" navigationRoute="/">
+    <button mat-icon-button td-menu-button tdLayoutToggle>
+      <mat-icon>menu</mat-icon>
+    </button>
+    <div td-toolbar-content layout="row" layout-align="center center" flex>
+      <span class="toolbar-title">Application </span>
+      <span flex></span>
+      <td-toolbar td-toolbar-content flex layout="row"></td-toolbar>
+    </div>
+    <!--
+  <td-layout-card-over cardTitle="Farm" cardSubtitle="Farm {{action}} overview" >
+    <ng-template tdLoading="farm.body">
+    <mat-card-content class="push-bottom-none">
+
+		<div class="md-padding">
+            <form>
+                <div layout="row">
+                  <mat-form-field flex> 
+                    <input matInput
+                            type="text" 
+                            placeholder="Nome" 
+                            [(ngModel)]="userNome" 
+                            name="userNome" 
+                            disabled>
+                  </mat-form-field>
+                  <mat-form-field flex> 
+                            <input matInput
+                            type="text" 
+                            placeholder="Cognome" 
+                            [(ngModel)]="userCognome" 
+                            name="userCognome" 
+                            disabled>
+                  </mat-form-field>
+                </div>
+                <div layout="row">
+                    <mat-form-field flex> 
+                             <input matInput
+                              type="text" 
+                              placeholder="Comune di nascita" 
+                              [(ngModel)]="userComuneNascita" 
+                              name="userComuneNascita" 
+                              disabled>
+                    </mat-form-field>
+                    <mat-form-field flex> 
+                              <input matInput
+                              type="text" 
+                              placeholder="Data di nascita" 
+                              [(ngModel)]="userFeldDataNascita" 
+                              name="userDataNascita" 
+                              disabled>
+                    </mat-form-field>
+                </div>
+                <div layout="row">
+                    <mat-form-field flex> 
+                      <input matInput
+                              type="text" 
+                              placeholder="Codice ficale" 
+                              [(ngModel)]="userCF" 
+                              name="userCF"  
+                              disabled>
+                    </mat-form-field>
+                    <mat-form-field flex> 
+                              <input matInput
+                              type="text" 
+                              placeholder="PEC" 
+                              [(ngModel)]="userPec" 
+                              name="userPec" 
+                              disabled>
+                    </mat-form-field>
+                  </div>
+              </form>
+		</div>
+      </mat-card-content>
+      <mat-divider></mat-divider>
+	  	  
+      <mat-card-actions class="bottoniera">
+        <button mat-button [disabled]=false (click)="backStep()">Back</button>
+        <span flex></span>
+        <button mat-button (click)="goBack()">Close</button>
+        <span flex></span>
+        <button mat-button (click)="nextStep()">{{(activeStepIdx==5)?'SALVA':'SUCCESSIVO'}}</button>
+      </mat-card-actions>
+
+    </ng-template>
+	
+  </td-layout-card-over>
+-->
+  <qs-farm-view label="Farm" sublabel="view" #farmView></qs-farm-view>
+</td-layout-nav>

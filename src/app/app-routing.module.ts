@@ -5,6 +5,7 @@ import { MainComponent } from './main/main.component';
 import { HomeComponent } from './home/home.component';
 import { ConsultazioniComponent } from './consultazioni/consultazioni.component';
 import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './login/register.component';
 import { AuthGuardService } from './services/auth.guard.service';
 
 const routes: Routes = [
@@ -19,6 +20,10 @@ const routes: Routes = [
             {
                 path: 'login',
                 component: LoginComponent,
+            },
+            {
+                path: 'register',
+                component: RegisterComponent,
             },
             {
                 component: ConsultazioniComponent,
@@ -44,5 +49,5 @@ const routes: Routes = [
 export class AppRoutingModule { }
 export const routedComponents: any[] = [
     MainComponent, LoginComponent, HomeComponent,
-    ConsultazioniComponent,
+    ConsultazioniComponent, RegisterComponent,
 ];

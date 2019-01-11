@@ -1,5 +1,5 @@
 export { Area } from './area';
-export { Farm } from './farm';
+export { Farm, IFarmData } from './farm';
 export { Fertilization } from './fertilization';
 export { Harvest } from './harvest';
 export { Irrigation } from './irrigation';

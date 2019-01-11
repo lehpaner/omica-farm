@@ -40,4 +40,5 @@ Thumbs.db
 .vscode
 node_modules
 dist
-environment
+environment.ts
+environment.prod.ts

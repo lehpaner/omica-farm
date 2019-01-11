@@ -1,7 +1,7 @@
 <div layout="column" layout-fill>
   <mat-toolbar color="primary" class="mat-whiteframe-z1">
     <mat-toolbar-row>
-	  <mat-icon class="mat-icon-logo" svgIcon="assets:logo"></mat-icon>
+	  <mat-icon class="mat-icon-logo" svgIcon="assets:logo_o"></mat-icon>
     <span>{{toolbarTitle}} </span>
     </mat-toolbar-row>
   </mat-toolbar>
@@ -39,7 +39,7 @@
           </mat-card-content>
           <mat-divider></mat-divider>
           <mat-card-actions layout="row">
-            <button flex mat-raised-button color="accent" [disabled]="!loginForm.form.valid" (click)="doLogin()">Accedi</button>
+            <button flex mat-raised-button color="accent" [disabled]="!loginForm.form.valid" (click)="doLogin()">SignIn</button>
           </mat-card-actions>
         </mat-card>
       </div>

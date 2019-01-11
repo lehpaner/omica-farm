@@ -15,5 +15,7 @@ constructor(private _iconRegistry: MatIconRegistry,
 
   this._iconRegistry.addSvgIconInNamespace('assets', 'logo',
   this._domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/logo.svg'));
+  this._iconRegistry.addSvgIconInNamespace('assets', 'logo_o',
+  this._domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/logo_o.svg'));
 }
 }

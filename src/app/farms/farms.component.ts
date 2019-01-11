@@ -37,7 +37,7 @@ export class FarmsComponent implements OnInit, AfterViewInit {
   currentUserCallback: Subscription;
   currentWorkspace: Workspace = null;
   contextChangeSubscription: any;
-  iscrizioneTipo: number = 0;
+
   pratiche: ModuloCommissari[] = [];
   praticheFiltrate: ModuloCommissari[]= [];
   currentFilter: number = 0;
@@ -58,7 +58,6 @@ constructor(private _appCtx: AppCtx, private _titleService: Title,
                 this.toolbarTitle = <string>_appCtx.getConfig('toolbarTitle');
                 this.copyrightString = <string>_appCtx.getConfig('copyrightString');
                 
-                this.iscrizioneTipo = this._appCtx.getConfig('tipoQuestionario');
                 let roles: string[] =  this._appCtx.getConfig('roles');
                 if (roles.length > 0) {
                   this.isSospeso = (roles.indexOf('sospeso') > -1);
@@ -163,6 +162,7 @@ async load(): Promise<void> {
       this._changeDetectorRef.detectChanges();
     }
   }
+
 goToEdit(id: string): void {
   let messaggio: string = '';
   let canDo: boolean = true;
@@ -175,15 +175,15 @@ goToEdit(id: string): void {
     messaggio = 'Utente risulta in stato "CANCELLATO" e non può modificare iscrizioni';
   }
   if (canDo) {
-    this._router.navigate(['iscrizione', id, 'edit']);
+    this._router.navigate(['farm', id, 'view']);
   } else {
     this._dialogService
-      .openAlert({message: messaggio,  closeButton: 'CHIUDI'} );
+      .openAlert({message: messaggio,  closeButton: 'CLOSE'} );
   }
 }
 
 goToAllegati(id: string, stat: number): void {
-  this._router.navigate(['farm', id, 'allegati'], { queryParams: { status: stat } });
+  this._router.navigate(['farm', id, 'docs'], { queryParams: { status: stat } });
 }
 
 nuovaIscrizione(): void {

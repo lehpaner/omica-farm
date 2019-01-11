@@ -1,9 +1,10 @@
 import { Component, Input, HostBinding, ChangeDetectionStrategy} from '@angular/core';
 import { OnDestroy, AfterContentInit } from '@angular/core';
 
-import {Farm} from '../../nodes/onodes/farm';
+import {Farm, IFarmData} from '../../nodes/onodes/farm';
 
 import { fadeInDownAnimation } from '../../app.animations';
+
 
 
 @Component({
@@ -19,14 +20,39 @@ import { fadeInDownAnimation } from '../../app.animations';
     @HostBinding('@routeAnimation') routeAnimation: boolean = true;
     @HostBinding('class.td-route-animation') classAnimation: boolean = true;
 
+    private _originalData: Farm = null;
     private _data: Farm = null;
     
+    private _farmData: IFarmData;
+
+    id: string= '';
+    name: string='';
+    contractType: string=''
+    soilType: string ='';
+
+      /**
+   * label?: string
+   * Sets label of [ViewCpmponent] header.
+   * Defaults to 'Click to expand'
+   */
+  @Input() label: string;
+    
+    /**
+   * sublabel?: string
+   * Sets sublabel of [TdExpansionPanelComponent] header.
+   */
+  @Input() sublabel: string;
+
    /**
    * data?: Farm 
    */
   @Input('data')
   set data(d: Farm) {
+        
         this._data = d;
+        console.log('DATA:', this._data);
+        if(this._data)
+           this._farmData = this._data.getFarmData();
   }
   get data(): Farm {
     return this._data;
@@ -52,5 +78,14 @@ import { fadeInDownAnimation } from '../../app.animations';
   }
   private _deregisterTriggers():void {
       
+  }
+
+  commit(): boolean {
+    this._originalData = this._data;
+    return true;
+  }
+  revert(): boolean {
+    this._data = this._originalData;
+    return true;
   }
 }

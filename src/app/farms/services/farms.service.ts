@@ -27,6 +27,7 @@ export class FarmsService {
   }
 
   public getFarms(): Promise<IResultRestModel> {
+    console.log('getFarms for ', this.currentWorkspace.id);
     return this._dapi.nodeGetChildren(this.currentWorkspace.id);
   }
   public getFarm(id: string): Promise<IResultRestModel> {

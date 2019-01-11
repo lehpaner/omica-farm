@@ -9,20 +9,20 @@ import { TdMediaService } from '@covalent/core/media';
 export class AnacDocsComponent {
 
   items: Object[] = [{
-    description: 'Introduzione alla applicazione',
+    description: 'Overview of application',
     icon: 'chrome_reader_mode',
     route: '.',
-    title: 'Introduzione',
+    title: 'Overview',
   }, {
-    description: 'Interrogazione dati raccolti da applicazione',
+    description: 'Managing farm data',
     icon: 'flash_on',
     route: 'consultazione',
-    title: 'Consultazione iscrizioni',
+    title: 'Farm management',
   }, {
-    description: 'Inserimento dati alla raccolta',
+    description: 'Management of seed&harvest',
     icon: 'build',
     route: 'gestione',
-    title: 'Gestione iscrizioni',
+    title: 'Task management',
   }];
 
   constructor(private _changeDetectorRef: ChangeDetectorRef,

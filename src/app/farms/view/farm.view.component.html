@@ -1,3 +1,59 @@
-<ng-template>
-    <ng-content></ng-content>
-</ng-template>
+        <td-layout-card-over cardTitle="{{label}}" cardSubtitle="{{sublabel}}" >
+            <ng-template tdLoading="farm.view.load">
+            <mat-card-content class="push-bottom-none">
+                <!--Form dati farma-->
+                <div class="md-padding">
+                    <form>
+                        <div layout="row">
+                          <mat-form-field flex> 
+                            <input matInput
+                                    type="text" 
+                                    placeholder="Account ID" 
+                                    [(ngModel)]="id" 
+                                    name="farmAccount" 
+                                    disabled>
+                          </mat-form-field>
+                          <mat-form-field flex> 
+                                    <input matInput
+                                    type="text" 
+                                    placeholder="Name" 
+                                    [(ngModel)]="name" 
+                                    name="farmName" 
+                                    disabled>
+                          </mat-form-field>
+                        </div>
+                        <div layout="row">
+                            <mat-form-field flex> 
+                                     <input matInput
+                                      type="text" 
+                                      placeholder="Contract type" 
+                                      [(ngModel)]="contractType" 
+                                      name="farmContractType" 
+                                      disabled>
+                            </mat-form-field>
+                            <mat-form-field flex> 
+                                      <input matInput
+                                      type="text" 
+                                      placeholder="Soil type" 
+                                      [(ngModel)]="soilType" 
+                                      name="farmSoilType" 
+                                      disabled>
+                            </mat-form-field>
+                        </div>
+                      </form>
+                </div>
+              </mat-card-content>
+              <mat-divider></mat-divider>
+                    
+              <mat-card-actions class="bottoniera">
+                <button mat-button [disabled]=false (click)="backStep()">Back</button>
+                <span flex></span>
+                <button mat-button (click)="goBack()">Close</button>
+                <span flex></span>
+                <button mat-button (click)="nextStep()">{{(activeStepIdx==5)?'SALVA':'SUCCESSIVO'}}</button>
+              </mat-card-actions>
+        
+            </ng-template>
+            
+          </td-layout-card-over>
+   
