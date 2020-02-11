@@ -25,6 +25,8 @@
 *.log
 *.sql
 *.sqlite
+*.sln
+*.csproj
 
 # OS generated files #
 ######################
@@ -37,8 +39,21 @@ ehthumbs.db
 Thumbs.db
 
 ##########
+compilerconfig.*
+karma.*
+package-lock.*
+protractor.*
 .vscode
+.editorconfig
+.yarnrc
 node_modules
+nswag
+e2e
+bin
+obj
 dist
+Dockerfile
 environment.ts
 environment.prod.ts
+web.config
+yarn.lock

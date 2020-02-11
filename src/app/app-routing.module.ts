@@ -1,53 +1,64 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-
-import { MainComponent } from './main/main.component';
-import { HomeComponent } from './home/home.component';
-import { ConsultazioniComponent } from './consultazioni/consultazioni.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './login/register.component';
-import { AuthGuardService } from './services/auth.guard.service';
-
-const routes: Routes = [
-    {
-        path: '',
-        component: MainComponent,
-        children: [
-            {
-                path: '',
-                component: HomeComponent,
-            },
-            {
-                path: 'login',
-                component: LoginComponent,
-            },
-            {
-                path: 'register',
-                component: RegisterComponent,
-            },
-            {
-                component: ConsultazioniComponent,
-                path: 'consultazioni',
-               // canActivate: [ AuthGuardService ],
-            },
-            { path: '', loadChildren: './admin/admin.module#AdminModule' },
-            { path: '', loadChildren: './farms/farms.module#FarmsModule' },
-			{ path: '', loadChildren: './iscrizione/iscrizione.module#IscrizioneModule' },
-            { path: '', loadChildren: './docs/docs.module#DocsModule' },
-        ],
-    },
-];
+import { NavigationEnd, RouteConfigLoadEnd, RouteConfigLoadStart, Router, RouterModule } from '@angular/router';
+import { AppComponent } from './app.component';
+import { AppRouteGuard } from './shared/common/auth/auth-route-guard';
+import { NotificationsComponent } from './shared/layout/notifications/notifications.component';
 
 @NgModule({
     imports: [
-        RouterModule.forRoot(routes, { useHash: true }),
+        RouterModule.forChild([
+            {
+                path: 'app',
+                component: AppComponent,
+                canActivate: [AppRouteGuard],
+                canActivateChild: [AppRouteGuard],
+                children: [
+                    {
+                        path: '',
+                        children: [
+                            { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+                            { path: 'guide', redirectTo: '/docs', pathMatch: 'full' },
+                            { path: 'notifications', component: NotificationsComponent }
+                            
+                        ]
+                    },
+                    {
+                        path: 'main',
+                        loadChildren: 'app/main/main.module#MainModule', //Lazy load main module
+                        data: { preload: true }
+                    },
+                    {
+                        path: 'admin',
+                        loadChildren: 'app/admin/admin.module#AdminModule', //Lazy load admin module
+                        data: { preload: true },
+                        canLoad: [AppRouteGuard]
+                    }, {
+                        path: '**', redirectTo: 'notifications'
+                    }
+                ]
+            }
+        ])
     ],
-    exports: [
-        RouterModule,
-    ]
+    exports: [RouterModule]
 })
-export class AppRoutingModule { }
-export const routedComponents: any[] = [
-    MainComponent, LoginComponent, HomeComponent,
-    ConsultazioniComponent, RegisterComponent,
-];
+
+export class AppRoutingModule {
+    constructor(
+        private router: Router
+    ) {
+        router.events.subscribe((event) => {
+
+            if (event instanceof RouteConfigLoadStart) {
+                abp.ui.setBusy();
+            }
+
+            if (event instanceof RouteConfigLoadEnd) {
+                abp.ui.clearBusy();
+            }
+
+            if (event instanceof NavigationEnd) {
+                document.querySelector('meta[property=og\\:url').setAttribute('content', window.location.href);
+            }
+        });
+    }
+}

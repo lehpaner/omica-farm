@@ -1,1 +1,0 @@
-export {ToolbarModule} from './toolbar/toolbar.module';
