@@ -1,0 +1,187 @@
+<div [@routerTransition]>
+    <div class="m-subheader">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto col-md-6">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <span>{{l("MonitoringStations")}}</span>
+                </h3>
+                <span class="m-section__sub">
+                    {{l("MonitoringStationsHeaderInfo")}}
+                </span>
+            </div>
+            <div class="col-md-6 text-right">
+				<button (click)="exportToExcel()" class="btn btn-outline-success"><i class="fa fa-file-excel"></i> {{l("ExportToExcel")}}</button>
+                <button *ngIf="isGranted('Pages.Administration.MonitoringStations.Create')" (click)="createMonitoringStation()" 
+			class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewMonitoringStation")}}</button>
+            </div>
+        </div>
+    </div>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+
+				<form class="horizontal-form" autocomplete="off">
+                    <div class="m-form m-form--label-align-right">
+                        <div class="row align-items-center m--margin-bottom-10">
+                            <div class="col-xl-12">
+                                <div class="form-group m-form__group align-items-center">
+                                    <div class="input-group">
+                                        <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
+                                        <span class="input-group-btn">
+                                            <button (click)="getMonitoringStations()" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						 <div class="row m--margin-bottom-10" [hidden]="!advancedFiltersAreShown">
+						 	<div class="col-md-12">
+						         <div class="m-separator m-separator--dashed"></div>
+						     </div>
+
+
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="NameFilter">{{l("Name")}}</label>
+									<input type="text" class="form-control" id="NameFilter" name="nameFilter" [(ngModel)]="nameFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="FarmNameFilter">({{l("Farm")}}) {{l("Name")}}</label>
+									<input type="text" class="form-control" id="FarmNameFilter" name="farmNameFilter" [(ngModel)]="farmNameFilter">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row margin-bottom-10">
+                            <div class="col-sm-12">
+                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
+                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row align-items-center">
+                    <!--<Primeng-Datatable-Start>-->
+                    <div class="primeng-datatable-container"
+                         [busyIf]="primengTableHelper.isLoading">
+                        <p-table #dataTable
+                                     (onLazyLoad)="getMonitoringStations($event)"
+                                     [value]="primengTableHelper.records"
+                                     rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                     [paginator]="false"
+                                     [lazy]="true"
+                                     [scrollable]="true"
+                                     ScrollWidth="100%"
+                                     [responsive]="primengTableHelper.isResponsive"
+                                     [resizableColumns]="primengTableHelper.resizableColumns">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 130px" [hidden]="!isGrantedAny('Pages.Administration.MonitoringStations.Edit', 'Pages.Administration.MonitoringStations.Delete')">{{l('Actions')}}</th>
+                                    <th style="width: 150px" pSortableColumn="farmName">
+                                        {{l('Name')}}
+                                        <p-sortIcon field="farmName"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="monitoringStation.name">
+                                        {{l('Name')}}
+                                        <p-sortIcon field="monitoringStation.name"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="monitoringStation.dataString">
+                                        {{l('DataString')}}
+                                        <p-sortIcon field="monitoringStation.dataString"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="monitoringStation.latitude">
+                                        {{l('Latitude')}}
+                                        <p-sortIcon field="monitoringStation.latitude"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="monitoringStation.longitude">
+                                        {{l('Longitude')}}
+                                        <p-sortIcon field="monitoringStation.longitude"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="monitoringStation.description">
+                                        {{l('Description')}}
+                                        <p-sortIcon field="monitoringStation.description"></p-sortIcon>
+                                    </th>
+
+                                </tr>
+                            </ng-template>                           
+							<ng-template pTemplate="body" let-record="$implicit">
+                                <tr>
+                                    <td style="width: 130px"
+                                        [hidden]="!isGrantedAny('Pages.Administration.MonitoringStations.Edit', 'Pages.Administration.MonitoringStations.Delete')">
+                                       <div class="btn-group dropdown" dropdown container="body">
+                                            <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
+                                            </button>
+												<ul class="dropdown-menu"  *dropdownMenu>
+
+												<li>
+													<a href="javascript:;" *ngIf="permission.isGranted('Pages.Administration.MonitoringStations.Edit')"
+														(click)="createOrEditMonitoringStationModal.show(record.monitoringStation.id)">{{l('Edit')}}</a>
+												</li>
+												<li>
+											        <a href="javascript:;" *ngIf="permission.isGranted('Pages.Administration.MonitoringStations.Delete')"
+														(click)="deleteMonitoringStation(record.monitoringStation)">{{l('Delete')}}</a>
+												</li>
+                                                <li>
+                                                    <a href="javascript:;" *ngIf="entityHistoryEnabled"
+                                                       (click)="showHistory(record.monitoringStation)">{{l('History')}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td style="width:150px">
+												<span class="ui-column-title"> {{l('Name')}}</span>
+												{{record.farmName}}
+											</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Name')}}</span>
+											{{record.monitoringStation.name}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('DataString')}}</span>
+											{{record.monitoringStation.dataString}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Latitude')}}</span>
+											{{record.monitoringStation.latitude}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Longitude')}}</span>
+											{{record.monitoringStation.longitude}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Description')}}</span>
+											{{record.monitoringStation.description}}
+										</td>
+
+                                </tr>
+                            </ng-template>
+                        </p-table>
+						<div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                            {{l('NoData')}}
+                        </div>
+                        <div class="primeng-paging-container">
+                            <p-paginator rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                         #paginator
+                                         (onPageChange)="getMonitoringStations($event)"
+                                         [totalRecords]="primengTableHelper.totalRecordsCount"
+                                         [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                            </span>
+                        </div>
+                    </div>
+                    <!--<Primeng-Datatable-End>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <createOrEditMonitoringStationModal #createOrEditMonitoringStationModal (modalSave)="getMonitoringStations()"></createOrEditMonitoringStationModal>
+    
+     <entityTypeHistoryModal #entityTypeHistoryModal></entityTypeHistoryModal>
+</div>

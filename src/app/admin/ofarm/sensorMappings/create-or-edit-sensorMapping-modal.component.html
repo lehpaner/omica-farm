@@ -1,0 +1,85 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #sensorMappingForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="sensorMapping.id">{{l("EditSensorMapping")}}</span>
+                        <span *ngIf="!sensorMapping.id">{{l("CreateNewSensorMapping")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+					<div class="form-group m-form__group">
+                        <label for="MonitoringStationName">{{l("MonitoringStation")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="MonitoringStationName" name="monitoringStationName" [(ngModel)]="monitoringStationName" type="text" disabled>     
+                            <div class="input-group-append">
+                                <button class="btn btn-primary blue" (click)="openSelectMonitoringStationModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            </div> <div class="input-group-prepend">
+                                <button class="btn btn-danger" type="button" (click)="setMonitoringStationIdNull()"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" name="sensorMapping.monitoringStationId" [(ngModel)]="sensorMapping.monitoringStationId" type="text" required hidden>
+		 
+					<div class="form-group m-form__group">
+                        <label for="SensorName">{{l("Sensor")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="SensorName" name="sensorName" [(ngModel)]="sensorName" type="text" disabled>     
+                            <div class="input-group-append">
+                                <button class="btn btn-primary blue" (click)="openSelectSensorModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            </div> <div class="input-group-prepend">
+                                <button class="btn btn-danger" type="button" (click)="setSensorIdNull()"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" name="sensorMapping.sensorId" [(ngModel)]="sensorMapping.sensorId" type="text"  hidden>
+		 
+
+								<div class="form-group">
+									<label for="SensorMapping_Description">{{l("Description")}}</label>
+									<input type="text" id="SensorMapping_Description" class="form-control" [(ngModel)]="sensorMapping.description" name="Description"     required/>
+								</div>
+					
+								<div class="form-group m-form__group row">
+									<label for="SensorMapping_MountingDate"  class="col-md-12">{{l("MountingDate")}}</label>
+									<div class="col-lg-10 col-md-9 col-sm-8">
+										 <input required class="form-control m-input" type="datetime" bsDatepicker [(ngModel)]="sensorMapping.mountingDate._d" id="SensorMapping_MountingDate" name="SensorMapping_MountingDate">
+									</div>
+								</div>
+					
+								<div class="form-group m-form__group row">
+									<label for="SensorMapping_DismountingDate"  class="col-md-12">{{l("DismountingDate")}}</label>
+									<div class="col-lg-10 col-md-9 col-sm-8">
+										 <input required class="form-control m-input" type="datetime" bsDatepicker [(ngModel)]="sensorMapping.dismountingDate._d" id="SensorMapping_DismountingDate" name="SensorMapping_DismountingDate">
+									</div>
+								</div>
+					
+								<div class="form-group">
+									<label for="SensorMapping_DataColumnName">{{l("DataColumnName")}}</label>
+									<input type="text" id="SensorMapping_DataColumnName" class="form-control" [(ngModel)]="sensorMapping.dataColumnName" name="DataColumnName"     required/>
+								</div>
+					
+								<div class="form-group">
+									<label for="SensorMapping_DataTableName">{{l("DataTableName")}}</label>
+									<input type="text" id="SensorMapping_DataTableName" class="form-control" [(ngModel)]="sensorMapping.dataTableName" name="DataTableName"     required/>
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!sensorMappingForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+<monitoringStationLookupTableModal #monitoringStationLookupTableModal (modalSave)="getNewMonitoringStationId()"></monitoringStationLookupTableModal>
+		 <sensorLookupTableModal #sensorLookupTableModal (modalSave)="getNewSensorId()"></sensorLookupTableModal>
+		 
+</div>

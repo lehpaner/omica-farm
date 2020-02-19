@@ -1,0 +1,60 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #monitoringStationData_1Form="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="monitoringStationData_1.id">{{l("EditMonitoringStationData_1")}}</span>
+                        <span *ngIf="!monitoringStationData_1.id">{{l("CreateNewMonitoringStationData_1")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+
+								<div class="form-group">
+									<label for="MonitoringStationData_1_latitude">{{l("latitude")}}</label>
+									<input type="number" id="MonitoringStationData_1_latitude" class="form-control" [(ngModel)]="monitoringStationData_1.latitude" name="latitude"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="MonitoringStationData_1_longitude">{{l("longitude")}}</label>
+									<input type="number" id="MonitoringStationData_1_longitude" class="form-control" [(ngModel)]="monitoringStationData_1.longitude" name="longitude"  />
+								</div>
+					
+								<div class="form-group m-form__group row">
+									<label for="MonitoringStationData_1_Time"  class="col-md-12">{{l("Time")}}</label>
+									<div class="col-lg-10 col-md-9 col-sm-8">
+										 <input required class="form-control m-input" type="datetime" bsDatepicker [(ngModel)]="monitoringStationData_1.time._d" id="MonitoringStationData_1_Time" name="MonitoringStationData_1_Time">
+									</div>
+								</div>
+					
+								<div class="form-group">
+									<label for="MonitoringStationData_1_BatteryLevel">{{l("BatteryLevel")}}</label>
+									<input type="number" id="MonitoringStationData_1_BatteryLevel" class="form-control" [(ngModel)]="monitoringStationData_1.batteryLevel" name="BatteryLevel"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="MonitoringStationData_1_AirTemperature">{{l("AirTemperature")}}</label>
+									<input type="number" id="MonitoringStationData_1_AirTemperature" class="form-control" [(ngModel)]="monitoringStationData_1.airTemperature" name="AirTemperature"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="MonitoringStationData_1_SoilTemperature">{{l("SoilTemperature")}}</label>
+									<input type="number" id="MonitoringStationData_1_SoilTemperature" class="form-control" [(ngModel)]="monitoringStationData_1.soilTemperature" name="SoilTemperature"  />
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!monitoringStationData_1Form.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,100 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #areaForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="area.id">{{l("EditArea")}}</span>
+                        <span *ngIf="!area.id">{{l("CreateNewArea")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+
+                    <div class="form-group m-form__group">
+                        <label for="FarmName">{{l("Farm")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="FarmName" name="farmName" [(ngModel)]="farmName" type="text" disabled>
+                            <div class="input-group-append">
+                                <button class="btn btn-primary blue" (click)="openSelectFarmModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            </div> <div class="input-group-prepend">
+                                <button class="btn btn-danger" type="button" (click)="setFarmIdNull()"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" name="area.farmId" [(ngModel)]="area.farmId" type="text" hidden>
+
+
+                    <div class="form-group">
+                        <label for="Area_Name">{{l("Name")}}</label>
+                        <input type="text" id="Area_Name" class="form-control" [(ngModel)]="area.name" name="Name" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Area_Description">{{l("Description")}}</label>
+                        <input type="text" id="Area_Description" class="form-control" [(ngModel)]="area.description" name="Description" required />
+                    </div>
+                    <!--
+    <div class="form-group">
+        <label for="Area_GeographyWKT">{{l("GeographyWKT")}}</label>
+        <input type="text" id="Area_GeographyWKT" class="form-control" [(ngModel)]="area.geographyWKT" name="GeographyWKT" />
+    </div>
+
+    <div class="form-group">
+        <label for="Area_Size">{{l("Size")}}</label>
+        <input type="number" id="Area_Size" class="form-control" [(ngModel)]="area.size" name="Size" />
+    </div>
+        -->
+                    <div class="form-group">
+                        <label for="Area_CadastralId">{{l("CadastralId")}}</label>
+                        <input type="text" id="Area_CadastralId" class="form-control" [(ngModel)]="area.cadastralId" name="CadastralId" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Area_SoilType">{{l("SoilType")}}</label>
+                        <select class="form-control" name="SoilType" id="Area_SoilType" [(ngModel)]="area.soilType">
+                            <option value="1">{{l('Enum_SoilType_1')}}</option>
+
+                            <option value="2">{{l('Enum_SoilType_2')}}</option>
+
+                            <option value="3">{{l('Enum_SoilType_3')}}</option>
+
+                            <option value="4">{{l('Enum_SoilType_4')}}</option>
+
+                            <option value="5">{{l('Enum_SoilType_5')}}</option>
+
+                            <option value="6">{{l('Enum_SoilType_6')}}</option>
+
+                            <option value="7">{{l('Enum_SoilType_7')}}</option>
+
+                            <option value="8">{{l('Enum_SoilType_8')}}</option>
+
+                            <option value="9">{{l('Enum_SoilType_9')}}</option>
+
+                            <option value="10">{{l('Enum_SoilType_10')}}</option>
+
+                            <option value="11">{{l('Enum_SoilType_11')}}</option>
+
+
+                        </select>
+
+                    </div>
+                    <div id="map">
+
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!areaForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+<farmLookupTableModal #farmLookupTableModal (modalSave)="getNewFarmId()"></farmLookupTableModal>
+		 
+</div>

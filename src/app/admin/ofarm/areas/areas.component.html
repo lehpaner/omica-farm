@@ -1,0 +1,227 @@
+<div [@routerTransition]>
+    <div class="m-subheader">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto col-md-6">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <span>{{l("Areas")}}</span>
+                </h3>
+                <span class="m-section__sub">
+                    {{l("AreasHeaderInfo")}}
+                </span>
+            </div>
+            <div class="col-md-6 text-right">
+				<button (click)="exportToExcel()" class="btn btn-outline-success"><i class="fa fa-file-excel"></i> {{l("ExportToExcel")}}</button>
+                <button *ngIf="isGranted('Pages.Administration.Areas.Create')" (click)="createArea()" 
+			class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewArea")}}</button>
+            </div>
+        </div>
+    </div>
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+
+				<form class="horizontal-form" autocomplete="off">
+                    <div class="m-form m-form--label-align-right">
+                        <div class="row align-items-center m--margin-bottom-10">
+                            <div class="col-xl-12">
+                                <div class="form-group m-form__group align-items-center">
+                                    <div class="input-group">
+                                        <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
+                                        <span class="input-group-btn">
+                                            <button (click)="getAreas()" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						 <div class="row m--margin-bottom-10" [hidden]="!advancedFiltersAreShown">
+						 	<div class="col-md-12">
+						         <div class="m-separator m-separator--dashed"></div>
+						     </div>
+
+
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="NameFilter">{{l("Name")}}</label>
+									<input type="text" class="form-control" id="NameFilter" name="nameFilter" [(ngModel)]="nameFilter">
+								</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinSizeFilter">{{l("MinMax")}} {{l("Size")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinSizeFilter" [(ngModel)]="minSizeFilter" placeholder="{{l('MinValue')}}" name="minSizeFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxSizeFilter" placeholder="{{l('MaxValue')}}" name="maxSizeFilter" />
+									</div>
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="CadastralIdFilter">{{l("CadastralId")}}</label>
+									<input type="text" class="form-control" id="CadastralIdFilter" name="cadastralIdFilter" [(ngModel)]="cadastralIdFilter">
+								</div>
+                            </div>
+							<div class="col-md-3">
+								<label for="SoilTypeFilterSelect">{{l("SoilType")}}</label>
+								<select class="form-control" name="SoilTypeFilter" id="SoilTypeFilterSelect" [(ngModel)]="soilTypeFilter">
+								<option value="-1">{{l("All")}}</option>
+																			<option value="1">{{l('Enum_SoilType_1')}}</option>
+
+										<option value="2">{{l('Enum_SoilType_2')}}</option>
+
+										<option value="3">{{l('Enum_SoilType_3')}}</option>
+
+										<option value="4">{{l('Enum_SoilType_4')}}</option>
+
+										<option value="5">{{l('Enum_SoilType_5')}}</option>
+
+										<option value="6">{{l('Enum_SoilType_6')}}</option>
+
+										<option value="7">{{l('Enum_SoilType_7')}}</option>
+
+										<option value="8">{{l('Enum_SoilType_8')}}</option>
+
+										<option value="9">{{l('Enum_SoilType_9')}}</option>
+
+										<option value="10">{{l('Enum_SoilType_10')}}</option>
+
+										<option value="11">{{l('Enum_SoilType_11')}}</option>
+
+
+								</select>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="FarmNameFilter">({{l("Farm")}}) {{l("Name")}}</label>
+									<input type="text" class="form-control" id="FarmNameFilter" name="farmNameFilter" [(ngModel)]="farmNameFilter">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row margin-bottom-10">
+                            <div class="col-sm-12">
+                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
+                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row align-items-center">
+                    <!--<Primeng-Datatable-Start>-->
+                    <div class="primeng-datatable-container"
+                         [busyIf]="primengTableHelper.isLoading">
+                        <p-table #dataTable
+                                     (onLazyLoad)="getAreas($event)"
+                                     [value]="primengTableHelper.records"
+                                     rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                     [paginator]="false"
+                                     [lazy]="true"
+                                     [scrollable]="true"
+                                     ScrollWidth="100%"
+                                     [responsive]="primengTableHelper.isResponsive"
+                                     [resizableColumns]="primengTableHelper.resizableColumns">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 130px" [hidden]="!isGrantedAny('Pages.Administration.Areas.Edit', 'Pages.Administration.Areas.Delete')">{{l('Actions')}}</th>
+                                    <th style="width: 150px" pSortableColumn="farmName">
+                                        {{l('Name')}}
+                                        <p-sortIcon field="farmName"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="area.name">
+                                        {{l('Name')}}
+                                        <p-sortIcon field="area.name"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="area.description">
+                                        {{l('Description')}}
+                                        <p-sortIcon field="area.description"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="area.size">
+                                        {{l('Size')}}
+                                        <p-sortIcon field="area.size"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="area.cadastralId">
+                                        {{l('CadastralId')}}
+                                        <p-sortIcon field="area.cadastralId"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="area.soilType">
+                                        {{l('SoilType')}}
+                                        <p-sortIcon field="area.soilType"></p-sortIcon>
+                                    </th>
+
+                                </tr>
+                            </ng-template>                           
+							<ng-template pTemplate="body" let-record="$implicit">
+                                <tr>
+                                    <td style="width: 130px"
+                                        [hidden]="!isGrantedAny('Pages.Administration.Areas.Edit', 'Pages.Administration.Areas.Delete')">
+                                       <div class="btn-group dropdown" dropdown container="body">
+                                            <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
+                                            </button>
+												<ul class="dropdown-menu"  *dropdownMenu>
+
+												<li>
+													<a href="javascript:;" *ngIf="permission.isGranted('Pages.Administration.Areas.Edit')"
+														(click)="createOrEditAreaModal.show(record.area.id)">{{l('Edit')}}</a>
+												</li>
+												<li>
+											        <a href="javascript:;" *ngIf="permission.isGranted('Pages.Administration.Areas.Delete')"
+														(click)="deleteArea(record.area)">{{l('Delete')}}</a>
+												</li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td style="width:150px">
+												<span class="ui-column-title"> {{l('Name')}}</span>
+												{{record.farmName}}
+											</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Name')}}</span>
+											{{record.area.name}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Description')}}</span>
+											{{record.area.description}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('Size')}}</span>
+											{{record.area.size}}
+										</td>
+                                    <td style="width:150px">
+											<span class="ui-column-title"> {{l('CadastralId')}}</span>
+											{{record.area.cadastralId}}
+										</td>
+                                    <td style="width:150px">
+										<span class="ui-column-title"> {{l('SoilType')}}</span>
+										{{l('Enum_SoilType' + soilType[record.area.soilType])}}
+                                    </td>
+
+                                </tr>
+                            </ng-template>
+                        </p-table>
+						<div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                            {{l('NoData')}}
+                        </div>
+                        <div class="primeng-paging-container">
+                            <p-paginator rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                         #paginator
+                                         (onPageChange)="getAreas($event)"
+                                         [totalRecords]="primengTableHelper.totalRecordsCount"
+                                         [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                            </span>
+                        </div>
+                    </div>
+                    <!--<Primeng-Datatable-End>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <createOrEditAreaModal #createOrEditAreaModal (modalSave)="getAreas()"></createOrEditAreaModal>
+    
+    
+</div>

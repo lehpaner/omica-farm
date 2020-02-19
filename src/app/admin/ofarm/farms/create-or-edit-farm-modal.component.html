@@ -1,0 +1,63 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #farmForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="farm.id">{{l("EditFarm")}}</span>
+                        <span *ngIf="!farm.id">{{l("CreateNewFarm")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="Farm_Name">{{l("Name")}}</label>
+                        <input type="text" id="Farm_Name" class="form-control" [(ngModel)]="farm.name" name="Name" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Farm_Description">{{l("Description")}}</label>
+                        <input type="text" id="Farm_Description" class="form-control" [(ngModel)]="farm.description" name="Description" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Farm_Address">{{l("Address")}}</label>
+                        <input type="text" id="Farm_Address" class="form-control" [(ngModel)]="farm.address" name="Address" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Farm_City">{{l("City")}}</label>
+                        <input type="text" id="Farm_City" class="form-control" [(ngModel)]="farm.city" name="Address" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Farm_ZipCode">{{l("ZipCode")}}</label>
+                        <input type="text" id="Farm_ZipCode" class="form-control" [(ngModel)]="farm.zipcode" name="Address" />
+                    </div>
+                    <!--
+    <div class="form-group">
+        <label for="Farm_Latitude">{{l("Latitude")}}</label>
+        <input type="number" id="Farm_Latitude" class="form-control" [(ngModel)]="farm.latitude" name="Latitude" />
+    </div>
+
+    <div class="form-group">
+        <label for="Farm_Longitude">{{l("Longitude")}}</label>
+        <input type="number" id="Farm_Longitude" class="form-control" [(ngModel)]="farm.longitude" name="Longitude" />
+    </div>
+           -->
+                    <div id="map">
+
+                    </div>
+                </div>
+                    <div class="modal-footer">
+                        <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                        <button type="submit" class="btn btn-primary blue" [disabled]="!farmForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                    </div>
+            </form>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,72 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #monitoringStationForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="monitoringStation.id">{{l("EditMonitoringStation")}}</span>
+                        <span *ngIf="!monitoringStation.id">{{l("CreateNewMonitoringStation")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+					<div class="form-group m-form__group">
+                        <label for="FarmName">{{l("Farm")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="FarmName" name="farmName" [(ngModel)]="farmName" type="text" disabled>     
+                            <div class="input-group-append">
+                                <button class="btn btn-primary blue" (click)="openSelectFarmModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            </div> <div class="input-group-prepend">
+                                <button class="btn btn-danger" type="button" (click)="setFarmIdNull()"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" name="monitoringStation.farmId" [(ngModel)]="monitoringStation.farmId" type="text"  hidden>
+		 
+
+								<div class="form-group">
+									<label for="MonitoringStation_Name">{{l("Name")}}</label>
+									<input type="text" id="MonitoringStation_Name" class="form-control" [(ngModel)]="monitoringStation.name" name="Name"     required/>
+								</div>
+					
+								<div class="form-group">
+									<label for="MonitoringStation_DataString">{{l("DataString")}}</label>
+									<input type="text" id="MonitoringStation_DataString" class="form-control" [(ngModel)]="monitoringStation.dataString" name="DataString"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="MonitoringStation_GeographyWkt">{{l("GeographyWkt")}}</label>
+									<input type="text" id="MonitoringStation_GeographyWkt" class="form-control" [(ngModel)]="monitoringStation.geographyWkt" name="GeographyWkt"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="MonitoringStation_Latitude">{{l("Latitude")}}</label>
+									<input type="number" id="MonitoringStation_Latitude" class="form-control" [(ngModel)]="monitoringStation.latitude" name="Latitude"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="MonitoringStation_Longitude">{{l("Longitude")}}</label>
+									<input type="number" id="MonitoringStation_Longitude" class="form-control" [(ngModel)]="monitoringStation.longitude" name="Longitude"  />
+								</div>
+					
+								<div class="form-group">
+									<label for="MonitoringStation_Description">{{l("Description")}}</label>
+									<input type="text" id="MonitoringStation_Description" class="form-control" [(ngModel)]="monitoringStation.description" name="Description"    />
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!monitoringStationForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+<farmLookupTableModal #farmLookupTableModal (modalSave)="getNewFarmId()"></farmLookupTableModal>
+		 
+</div>
