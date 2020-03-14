@@ -1,0 +1,44 @@
+<!-- BEGIN: LAND_LIST -->
+<div mLandList (mouseenter)="mouseEnter($event)" (mouseleave)="mouseLeave($event)" id="land_list" data-menu-vertical="true" class="" >
+    <ul class="entity-list omica-box">
+        <ng-container [ngTemplateOutlet]="mLandListItems"></ng-container>
+    </ul>
+</div>
+<!-- END: LAND_LIST  -->
+
+<ng-template #mLandListItems>
+    <ng-container *ngFor="let land of lands">
+        <ng-container  [ngTemplateOutlet]="mLandItem" [ngTemplateOutletContext]="{ item:land}"></ng-container>
+    </ng-container>
+</ng-template>
+
+<ng-template #mLandItem let-item="item">
+    <li class="display-flex">
+        <div id="itemContainer" class = "display-flex entity-item entity-item-with-control-menu">
+            <a target="_self" href="./" clsss=" display-flex entity-item-link relative" >
+                <div class="display-flex entity-item-img-wrapper omica-box">
+                    <img id="landIcon" width="60" height="60" src="../../../assets/omica/logo_omica.svg" class="omica-box" loading="lazy"  alt="icon"  >
+                
+                <div class="entity-item-meta relative">
+                    <span class="feed-shared-actor__title">
+                        <div class="item-shared-actor__container absolute"></div><span class="feed-shared-actor__name t-14 t-black t-bold hoverable-link-text" aria-expanded="false" aria-controls="undefined" tabindex="-1">
+                            <span dir="ltr">{{item.name}}</span>
+                        </span>
+
+                    </span>
+                    <span class="item-shared-actor__description t-12 t-black--light t-normal">
+                        <div id="land_description" class="truncate feed-shared-text-view white-space-pre-wrap break-words omica-box">
+                            <span> {{item.description}}</span>
+                        </div>
+                    </span>
+                </div>
+            </div>
+            </a>
+            <div class="absolute entity-item-control" dropdown container="body">
+
+            </div>   
+        </div>
+
+    </li>
+    
+</ng-template>

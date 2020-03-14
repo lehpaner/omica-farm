@@ -1,13 +1,14 @@
 import { AfterViewInit, Injector, ViewEncapsulation, OnInit, Component, ViewChild} from '@angular/core';
 import { appModuleAnimation } from "@shared/animations/routerTransition";
 import { AppComponentBase } from '@shared/common/app-component-base';
-import { LandsServiceProxy, FarmDto, ListResultDtoOfFarmDto, TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
+import { LandService } from '../services/land-service';
+import {FarmDto, ListResultDtoOfFarmDto, TokenAuthServiceProxy } from '@shared/service-proxies/service-proxies';
 
 import { LazyLoadEvent } from 'primeng/components/common/lazyloadevent';
 import { Paginator } from 'primeng/components/paginator/paginator';
 import { Table } from 'primeng/components/table/table';
 import { NotifyService } from 'abp-ng2-module/dist/src/notify/notify.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FileDownloadService } from '@shared/utils/file-download.service';
 
 @Component({
@@ -29,16 +30,21 @@ export class LandsComponent extends AppComponentBase implements OnInit {
     cityFilter = '';
 
     records: Array<FarmDto> = [];
+    selectedFarm:FarmDto;
     
     _entityTypeFullName = 'OFarmDemo.Ofarm.Farm';
     entityHistoryEnabled = false;
 
-    constructor (injector:Injector, private _landsService: LandsServiceProxy,
+    constructor (injector:Injector, private _landsService: LandService,
         private _notifyService: NotifyService,
         private _tokenAuth: TokenAuthServiceProxy,
         private _activatedRoute: ActivatedRoute,
-        private _fileDownloadService: FileDownloadService){
+        private router: Router){
         super(injector);
+        this._landsService.selecteLand.subscribe(farm => { 
+            this.selectedFarm = farm;
+            console.log("LandsComponent::selectedLand change to", farm);
+        });
     }
 
     ngOnInit(): void {
@@ -72,7 +78,14 @@ export class LandsComponent extends AppComponentBase implements OnInit {
 
         console.log("END RELOAD PAGE");
     }
+    editFarm(farm:FarmDto) {
 
+    }
+    viewFarm(land:FarmDto) {
+        console.log(land);
+        this._landsService.selectFarm(land);
+        this.router.navigate(['/app/main/lands/'+land.id]);
+    }
     createFarm(): void {
         console.log("CREATE FARM");
    //     this.createOrEditFarmModal.show();

@@ -14,8 +14,30 @@
     </div>
 
     <div class="m-content">
-            <div class="m-portlet">
-                Buongiorno
+        <div class="m-portlet">
+            <div class="m-portlet__body">
+                
             </div>
+            <div class="m-portlet__body">
+                <tabset>
+                    <tab heading="Land data">
+                        {{land.name}}
+                    </tab>
+                    <tab heading="Land areas">
+                        <ng-template let-area let-last="last" ngFor [ngForOf]="areas">
+                            <span hide-xs hide-sm hide-md flex-gt-xs="60" flex-xs="40" layout-gt-xs="row">
+                                <div class="mat-caption tc-grey-500" flex-gt-xs="50"> {{ area.name }} </div>
+                                <div class="mat-caption tc-grey-500" flex-gt-xs="50"> {{ area.description }} </div>
+                                <div class="mat-caption tc-grey-500" flex-gt-xs="50"> ww</div>
+                            </span>
+                            <span flex></span>
+                        </ng-template>
+                    </tab>
+                    <tab heading="Map"> MAP</tab>
+                    <tab heading="Statistics">Statistics</tab>
+                </tabset>
+            </div>
+        
+        </div>
     </div>
 </div>

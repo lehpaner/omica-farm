@@ -1,3 +1,7 @@
+@import "../../shared/omica-layout.less";
+
+@main-col-l:400px;
+
 #TenantLands {
 
     input[type="radio"] {
@@ -5,3 +9,221 @@
     }
 
 }
+
+.ghost-animate-in .core-rail,
+.ghost-animate-in .left-rail {
+    opacity: 1;
+    animation: none
+}
+
+.omica-row {
+    float: left;
+    display: block;
+    width: 95%;
+}
+
+.artdeco-card {
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, .15), 0 2px 3px rgba(0, 0, 0, .2);
+    transition: box-shadow 83ms;
+    background-color: #fff;
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative
+}
+@media screen and (-ms-high-contrast:active) {
+    .artdeco-card {
+        border: 1px solid activeborder
+    }
+}
+
+.artdeco-card--with-hover:hover {
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, .15), 0 4px 6px rgba(0, 0, 0, .2);
+    transition: box-shadow 83ms;
+    cursor: pointer
+}
+
+
+.feed-shared-actor {
+    flex-wrap: nowrap;
+    padding: 12px 16px 0;
+    margin-bottom: 8px;
+    align-items: center
+}
+
+.feed-shared-actor--with-control-menu {
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, .15), 0 2px 3px rgba(0, 0, 0, .2);
+    padding-right: 40px
+}
+
+.feed-shared-actor__meta {
+    flex-grow: 1;
+    flex-basis: 0;
+    margin-left: 8px;
+    overflow: hidden
+}
+
+.feed-shared-actor__container-link:focus, .feed-shared-actor__container-link:hover {
+    text-decoration: none
+}
+
+.feed-shared-actor__container {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0
+}
+
+.feed-shared-actor__container-link {
+    overflow: hidden
+}
+
+.feed-shared-actor__container-link:focus, .feed-shared-actor__container-link:hover {
+    text-decoration: none
+}
+
+.feed-shared-update-v2--minimal-padding .feed-shared-actor__container-link {
+    margin-right: 12px
+}
+
+.feed-shared-actor__avatar-image.feed-shared-actor__avatar-image {
+    background-size: contain;
+    background-repeat: no-repeat
+}
+.ivm-view-attr__img-wrapper--use-img-tag .feed-shared-actor__avatar-image.feed-shared-actor__avatar-image {
+    object-fit: contain
+}
+
+.feed-shared-actor__avatar .EntityPhoto-square-3 {
+    background-color: #fff
+}
+
+.feed-shared-actor__description {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block
+}
+
+.feed-shared-actor__name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: top;
+    display: inline-block
+}
+
+.feed-shared-actor__influencer-badge {
+    display: inline-block;
+    height: 19px;
+    width: 17px;
+    background: url(/sc/h/1kwg0dqnqvs4gok0y64lehp20) 0 -22px no-repeat;
+    margin-left: 4px;
+    vertical-align: top
+}
+
+.feed-shared-update-v2--minimal-padding .feed-shared-actor__title {
+    display: flex
+}
+
+.feed-shared-actor__supplementary-actor-info {
+    vertical-align: top
+}
+
+.feed-shared-mini-update-v2 .feed-shared-actor {
+    padding-top: 0
+}
+
+.feed-shared-update-v2--minimal-padding .feed-shared-mini-update-v2 .feed-shared-actor {
+    padding-left: 8px;
+    padding-right: 8px
+}
+
+.feed-shared-actor__follow-button {
+    flex-shrink: 0
+}
+
+.feed-shared-update-v2--minimal-padding .feed-shared-actor__follow-button {
+    margin-right: -8px
+}
+
+.feed-shared-mini-update-v2 .feed-shared-actor__follow-button {
+    margin-right: 0
+}
+
+.feed-shared-mini-update-v2 .feed-shared-update-v2__follow-button--next-to-control-menu, .feed-shared-update-v2--minimal-padding .feed-shared-update-v2__follow-button--next-to-control-menu {
+    align-self: flex-start;
+    margin-top: -8px;
+    margin-right: 8px
+}
+
+.feed-shared-text-view + .feed-shared-update-v2__update-content-wrapper {
+    margin-top: 8px
+}
+
+.t-mono {
+    font-family: var(--artdeco-typography-mono)
+}
+
+.t-sans {
+    font-family: var(--artdeco-typography-sans)
+}
+
+.t-serif {
+    font-family: var(--artdeco-typography-serif)
+}
+
+.t-black {
+    color: rgba(0,0,0,.9)
+}
+
+.t-black--light {
+    color: rgba(0,0,0,.6)
+}
+
+.t-white {
+    color: #fff
+}
+
+.t-white--light {
+    color: hsla(0,0%,100%,.7)
+}
+
+.t-bold {
+    font-weight: 600
+}
+
+.t-light {
+    font-weight: 200
+}
+
+.t-normal {
+    font-weight: 400
+}
+
+.t-italic {
+    font-style: italic
+}
+
+.t-roman {
+    font-style: normal
+}
+
+.t-12 {
+    font-size: 1.2rem;
+    line-height: 1.33333
+}
+
+.t-14 {
+    font-size: 1.4rem;
+    line-height: 1.42857
+}
+
+.t-16 {
+    font-size: 1.6rem;
+    line-height: 1.5
+}
+
+.t-16.t-16--open {
+   line-height: 1.75
+}
+

@@ -22,6 +22,19 @@
     <div class="m-content">
         <div class="m-portlet">
             <div class="m-portlet__body">
+                <div class="omica-grid two-column host-animate-in">
+                    <div class="core-rail" role="main">
+                        <!-- BEGIN: Land List -->
+                        <omica-land-list class="omica-box"> </omica-land-list>
+                        
+                    <div class="right-rail" role = "presentation">
+                        <section class="artdeco-card" >
+                            <omica-map></omica-map>
+                        </section>
+                    </div>
+                  </div>
+            </div>
+            <div class="m-portlet__body display-hidden" >
                     <tabset>
                         <tab heading="Table" id="tab1">
                             This is the table
@@ -132,7 +145,7 @@
                                                         <ul class="dropdown-menu" *dropdownMenu>
                                                             <li>
                                                                 <a href="javascript:;"
-                                                                   (click)="viewFarmModal.show(record)">{{l('View')}}</a>
+                                                                   (click)="viewFarm(record)">{{l('View')}}</a>
                                                             </li>
                                                             <li>
                                                                 <a href="javascript:;" *ngIf="permission.isGranted('Pages.Administration.Farms.Edit')"

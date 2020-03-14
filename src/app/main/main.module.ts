@@ -21,7 +21,10 @@ import { DocumentationComponent } from './documentation/docs.component';
 import { ExternalComponent } from './third-parties/external.component';
 import { LandsComponent } from './land-admnistration/lands.component';
 import { LandComponent } from './land-admnistration/land.component';
-import { LandsServiceProxy } from '@shared/service-proxies/service-proxies';
+import { OmicaMap } from './common/omica-map'
+
+import { LandService } from './services/land-service';
+import { OmicaLandList } from './common/omica-land-list';
 
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
@@ -49,10 +52,12 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         DocumentationComponent,
         ExternalComponent,
         LandsComponent,
-        LandComponent
+        LandComponent,
+        OmicaMap,
+        OmicaLandList
     ],
     providers: [
-        LandsServiceProxy,
+        LandService,
         { provide: BsDatepickerConfig, useFactory: NgxBootstrapDatePickerConfigService.getDatepickerConfig },
         { provide: BsDaterangepickerConfig, useFactory: NgxBootstrapDatePickerConfigService.getDaterangepickerConfig },
         { provide: BsLocaleService, useFactory: NgxBootstrapDatePickerConfigService.getDatepickerLocale }

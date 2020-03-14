@@ -1,0 +1,148 @@
+
+body > .omica-box{
+    height : 100%;
+}
+
+.display-flex {
+    display: flex!important
+}
+
+.display-hidden {
+    display: none!important
+}
+.flex-grow-1 {
+    flex-grow: 1!important;
+}
+
+.vbox {
+    display: block!important;
+}
+
+.hbox {
+    display: flex;
+}
+
+.relative {
+    position: relative!important
+}
+
+.absolute {
+    position: absolute!important
+}
+.omica-grid {
+ /*   width: 100%;*/
+    box-sizing: content-box;
+    padding: 0 30px;
+    display: flex;
+    margin: auto;
+    position: relative
+}
+
+.omica-grid:after {
+    content: "";
+    display: block;
+    clear: both
+}
+
+.omica-grid .left-rail {
+    width: 215.99808px;
+    margin-left: 0
+}
+
+.omica-grid .left-rail,
+.omica-grid.one-column .core-rail {
+    box-sizing: border-box;
+    float: left;
+    margin-bottom: 24px;
+    margin-right: -1px
+}
+
+.omica-grid.one-column .core-rail {
+    width: 100%
+}
+
+.omica-grid.two-column .core-rail {
+    margin-left: 0
+}
+
+.omica-grid.two-column-with-left-rail .core-rail,
+.omica-grid.two-column .core-rail {
+    box-sizing: border-box;
+    float: left;
+    margin-bottom: 24px;
+    margin-right: -1px;
+    width: 60%
+}
+
+.omica-grid.two-column-with-left-rail .core-rail {
+    margin-left: 25px
+}
+
+.omica-grid.two-column-with-left-rail .left-rail {
+    box-sizing: border-box;
+    float: left;
+    margin-bottom: 24px;
+    margin-right: -1px;
+    width: 312.00192px;
+    margin-left: 0
+}
+
+.omica-grid.two-column-with-left-rail .left-rail .left-rail-container {
+    box-sizing: border-box;
+    float: left;
+    margin-bottom: 0;
+    margin-right: -1px;
+    width: 312.00192px;
+    margin-left: 0
+}
+
+.omica-grid.three-column .core-rail {
+    width: 552px
+}
+
+.omica-grid .right-rail,
+.omica-grid.three-column .core-rail {
+    box-sizing: border-box;
+    float: left;
+    margin-bottom: 24px;
+    margin-right: -1px;
+    margin-left: 25px
+}
+
+.omica-grid .right-rail {
+    width: 30%
+}
+
+.omica-grid .right-rail .right-rail-container {
+    box-sizing: border-box;
+    float: left;
+    margin-bottom: 0;
+    margin-right: -1px;
+    width: 312.00192px;
+    margin-left: 0
+ }
+
+.core-rail,
+.left-rail {
+    opacity: .8;
+    animation: fade-in .33s ease forwards
+}
+
+.core-rail {
+    animation-delay: 84ms
+}
+
+
+
+
+.item-shared-actor__container-link:focus, .feed-shared-actor__container-link:hover {
+    text-decoration: none
+}
+
+.item-shared-actor__container-link {
+    margin-right: 12px
+}
+.item-view-attr__img-wrapper--use-img-tag {
+    object-position: center;
+    object-fit: cover
+}

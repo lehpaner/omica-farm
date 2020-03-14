@@ -7,6 +7,8 @@ import { hmrBootstrap } from './hmr';
 import './polyfills.ts';
 import { RootModule } from './root.module';
 
+import * as mapbox from 'mapbox-gl';
+
 if (environment.production) {
     enableProdMode();
 }
@@ -18,7 +20,7 @@ const bootstrap = () => {
 /* "Hot Module Replacement" is enabled as described on
  * https://medium.com/@beeman/tutorial-enable-hrm-in-angular-cli-apps-1b0d13b80130#.sa87zkloh
  */
-
+(mapbox as any).accessToken = environment.mapbox.accessToken;
 if (environment.hmr) {
     if (module['hot']) {
         hmrBootstrap(module, bootstrap); //HMR enabled bootstrap
