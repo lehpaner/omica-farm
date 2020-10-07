@@ -9,7 +9,7 @@ export const environment = {
     appConfig: 'appconfig.json',
     mapbox: {
         // tslint:disable-next-line: max-line-length
-        accessToken: 'pk.eyJ1IjoiYmVnaW5vciIsImEiOiJjaXQyZmQ1M24wMGIzMnlwZDhqZG5heGIyIn0.cS4xQ_IUfmYUBHdt7i9qqg'
+        accessToken: 'pk.eyJ1IjoibGVocGFuZXIiLCJhIjoiY2s2dHMxYWg1MDI4cjNrcDc0bzNxcDdkcCJ9.UaVviMKBAqdpPdCb1LlJuQ'
     }
 };
 

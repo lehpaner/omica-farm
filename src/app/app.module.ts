@@ -66,6 +66,8 @@ import { LayoutRefService } from '@metronic/app/core/services/layout/layout-ref.
 //GoogleMaps
 import { AgmCoreModule } from '@agm/core';
 
+import { OmicaComponentsModule } from './shared/omica-components/omica-components.module';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -101,6 +103,7 @@ import { AgmCoreModule } from '@agm/core';
     ],
     imports: [
         ngCommon.CommonModule,
+        OmicaComponentsModule,
         FormsModule,
         HttpClientModule,
         HttpClientJsonpModule,

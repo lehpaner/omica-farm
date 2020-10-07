@@ -26,6 +26,8 @@ import { OmicaMap } from './common/omica-map'
 import { LandService } from './services/land-service';
 import { OmicaLandList } from './common/omica-land-list';
 
+import { ItemPanelModule } from '../shared/omica-components/item-panel/item-panel.module';
+import { OmicaComponentsModule } from '../shared/omica-components/omica-components.module';
 
 NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
 
@@ -44,7 +46,9 @@ NgxBootstrapDatePickerConfigService.registerNgxBootstrapDatePickerLocales();
         CountoModule,
         NgxChartsModule,
         BsDatepickerModule.forRoot(),
-        BsDropdownModule.forRoot()
+        BsDropdownModule.forRoot(),
+        ItemPanelModule,
+        OmicaComponentsModule,
     ],
     declarations: [
         DashboardComponent,

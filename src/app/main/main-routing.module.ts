@@ -18,7 +18,8 @@ import { ExternalComponent } from './third-parties/external.component';
                     { path: 'dashboard', component: DashboardComponent, data: { permission: 'Pages.Tenant.Dashboard' } },
                     { path: 'documentation', component: DocumentationComponent, data: { permission: null }},
                     { path: 'lands', component: LandsComponent, data: { permission: null }},
-                    { path: 'lands/:id', component: LandComponent, data: { permission: null }},
+                    { path: 'land/:id', component: LandComponent, data: { permission: null }},
+                    { path: 'land/:id/edit', component: LandComponent, data: { permission: null }},
                     { path: 'external', component: ExternalComponent, data: { permission: null }}
                 ]
             }

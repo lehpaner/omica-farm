@@ -15,7 +15,34 @@
 
     <div class="m-content">
             <div class="m-portlet">
-                Buongiorno
+                <item-panel label="label" sublabel="sublabel" expand="false" disabled="false" (expanded)="expandedEvent()"
+                    (collapsed)="collapsedEvent()">
+                <item-summary>
+                    ... add summary that will be shown when expansion-panel is "collapsed".
+                </item-summary>
+                  ... add content that
+                </item-panel>
+
+                <item-panel-group>
+                    <item-panel label="Item1" sublabel="Description1" expand="false" disabled="false" (expanded)="expandedEvent()" (collapsed)="collapsedEvent()">
+                        <item-summary>
+                            Collapsed Item1 ....
+                            bb
+                            bb
+                            bb
+                            bb
+                            bb
+                        </item-summary>
+                        Item 1 is description
+                    </item-panel>
+                    <item-panel label="Item2" sublabel="Arrea 52" expand="false" disabled="false" (expanded)="expandedEvent()" (collapsed)="collapsedEvent()">
+                        <item-summary>
+                           <area-calendar [data]="example_data" color="#ff0000" overview=1 handler="print"></area-calendar>
+                        </item-summary>
+                        Area presa dalla ....
+                        
+                    </item-panel>
+                </item-panel-group>
             </div>
     </div>
 </div>

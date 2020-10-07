@@ -5,7 +5,8 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angula
 
 import { Map } from 'mapbox-gl';
 
-import { FarmDto, API_BASE_URL, ListResultDtoOfFarmDto, ListResultDtoOfAreaDto, AreaDto } from "@shared/service-proxies/service-proxies";
+import { FarmDto, API_BASE_URL, ListResultDtoOfFarmDto, ListResultDtoOfAreaDto, AreaDto, MonitoringStationDto, ListResultDtoOfMonitoringStationDto } from "@shared/service-proxies/service-proxies";
+
 /////////////// UTILS
 function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): Observable<any> {
     if(result !== null && result !== undefined)
@@ -40,13 +41,9 @@ export class LandService {
     private baseUrl: string;
    
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-    //behavior subject 4 land
-    //selected:FarmDto =undefined;
-    // private current_farm = new BehaviorSubject(this.selected);
-    //currentFarm = this.current_farm.asObservable();
-    //behaviour subject 4 map
-    public selecteLand = new AsyncSubject<FarmDto>();
-    public map = new AsyncSubject<Map>();
+
+    public selecteLand = new BehaviorSubject<FarmDto>(undefined);
+    public map = new BehaviorSubject<Map>(undefined);
     
 
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
@@ -56,8 +53,10 @@ export class LandService {
 
     selectFarm(farm: FarmDto) {
         this.selecteLand.next(farm);
-        this.selecteLand.complete();
-      }
+    }
+    selectMap(mappa: Map) {
+        this.map.next(mappa);
+    }
     /**
      * @return Success
      */
@@ -97,8 +96,10 @@ export class LandService {
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
+            console.log("processLandsGet _responseText:", _responseText);
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result200 = resultData200 ? ListResultDtoOfFarmDto.fromJS(resultData200) : new ListResultDtoOfFarmDto();
+            console.log("processLandsGet Result200:", result200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -178,7 +179,6 @@ export class LandService {
                 "Accept": "application/json"
             })
         };
-
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
             return this.processAreasGet(response_);
         })).pipe(_observableCatch((response_: any) => {
@@ -195,16 +195,20 @@ export class LandService {
 
     protected processAreasGet(response: HttpResponseBase): Observable<ListResultDtoOfAreaDto> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
+        const responseBlob = response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+           
             let result200: any = null;
+            console.log("GetprocessAreasGetArea _responseText:", _responseText);
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ListResultDtoOfAreaDto.fromJS(resultData200) : new ListResultDtoOfAreaDto();
+//Pekmez            console.log("GetprocessAreasGetArea _responseText:", _responseText);
+//Pekmez            console.log("GetprocessAreasGetArea resultData200:", resultData200);
+            result200 = resultData200 ? ListResultDtoOfAreaDto.fromJS(resultData200.result) : new ListResultDtoOfAreaDto();
+            
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -268,5 +272,63 @@ export class LandService {
             }));
         }
         return _observableOf<void>(<any>null);
+    }
+
+    /***
+     * Monitoring Stations
+     */
+    monitoringStationsGet(id:number): Observable<ListResultDtoOfMonitoringStationDto>  {
+        let url_ = this.baseUrl + "/api/services/lands/{id}/monStations";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+
+            return this.processMonitoringStationsGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            console.log("monitoringStationsGet response_:", response_);
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processMonitoringStationsGet(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfMonitoringStationDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfMonitoringStationDto>><any>_observableThrow(response_);
+        }));
+    }
+    protected processMonitoringStationsGet(response: HttpResponseBase): Observable<ListResultDtoOfMonitoringStationDto> {
+        const status = response.status;
+        const responseBlob = response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+           
+            let result200: any = null;
+//Pekmez            console.log("processMonitoringStationsGet _responseText:", _responseText);
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+//Pekmez            console.log("processMonitoringStationsGet _responseText:", _responseText);
+//Pekmez            console.log("processMonitoringStationsGet resultData200:", resultData200);
+            result200 = resultData200 ? ListResultDtoOfMonitoringStationDto.fromJS(resultData200.result) : new ListResultDtoOfMonitoringStationDto();
+            
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfMonitoringStationDto>(<any>null);
     }
 }

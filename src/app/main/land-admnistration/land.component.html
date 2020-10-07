@@ -3,10 +3,10 @@
         <div class="row align-items-center">
             <div class="mr-auto col-auto">
                 <h3 class="m-subheader__title m-subheader__title--separator">
-                    <span>{{l("Home")}}</span>
+                    <span>{{land.name}}</span>
                 </h3>
                 <span class="m-section__sub">
-                    {{l("HomeHeaderInfo")}}
+                    {{land.description}}
                 </span>
             </div>
 
@@ -16,25 +16,121 @@
     <div class="m-content">
         <div class="m-portlet">
             <div class="m-portlet__body">
-                
-            </div>
-            <div class="m-portlet__body">
-                <tabset>
-                    <tab heading="Land data">
-                        {{land.name}}
+                <tabset #landdatatab>
+                    <tab heading="Map" (select)="tabSelected($event)" (deselect)="tabDeSelected($event)">
+                        <div class="row">
+                            <omica-map-editor class="col-sm-12"></omica-map-editor>
+                        </div>
                     </tab>
-                    <tab heading="Land areas">
-                        <ng-template let-area let-last="last" ngFor [ngForOf]="areas">
-                            <span hide-xs hide-sm hide-md flex-gt-xs="60" flex-xs="40" layout-gt-xs="row">
-                                <div class="mat-caption tc-grey-500" flex-gt-xs="50"> {{ area.name }} </div>
-                                <div class="mat-caption tc-grey-500" flex-gt-xs="50"> {{ area.description }} </div>
-                                <div class="mat-caption tc-grey-500" flex-gt-xs="50"> ww</div>
-                            </span>
-                            <span flex></span>
+
+                    <tab heading="Land data" (select)="tabSelected($event)" (deselect)="tabDeSelected($event)">
+                        <form *ngIf="active" #landForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="Name">{{l("Name")}} *</label>
+                                        <input id="Name" #nameInput="ngModel" class="form-control" type="text" name="Name" [(ngModel)]="land.name" required maxlength="100">
+                                        <validation-messages [formCtrl]="nameInput"></validation-messages>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="Code">{{l("Code")}} *</label>
+                                        <input id="Code" #codeInput="ngModel" type="text" name="Code" class="form-control" [(ngModel)]="land.id" required maxlength="32">
+                                        <validation-messages [formCtrl]="codeInput"></validation-messages>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label for="Description">{{l("Description")}} *</label>
+                                        <input id="Description" #descriptionInput="ngModel" type="text" name="Description" class="form-control" [(ngModel)]="land.description" required maxlength="255">
+                                        <validation-messages [formCtrl]="descriptionInput"></validation-messages>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Address">{{l("Address")}} *</label>
+                                        <input id="Address" #addressInput="ngModel" type="text" name="Address" class="form-control" [(ngModel)]="land.address" required maxlength="255">
+                                        <validation-messages [formCtrl]="addressInput"></validation-messages>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- city zip country row -->
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="Citty">{{l("Citty")}} *</label>
+                                        <input id="Citty" #cittyInput="ngModel" type="text" name="Citty" class="form-control" [(ngModel)]="land.citty" required maxlength="100">
+                                        <validation-messages [formCtrl]="cittyInput"></validation-messages>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="Zip">{{l("Zip")}} *</label>
+                                        <input id="Zip" #zipInput="ngModel" type="text" name="Zip" class="form-control" [(ngModel)]="land.zipCode" required maxlength="100">
+                                        <validation-messages [formCtrl]="zipInput"></validation-messages>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="Country">{{l("Country")}} *</label>
+                                        <input id="Country" #countryInput="ngModel" type="text" name="Country" class="form-control" [(ngModel)]="land.country" required maxlength="100">
+                                        <validation-messages [formCtrl]="countryInput"></validation-messages>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Buttons row -->
+                            <div class="row">
+                                <div class="col-sm-11">
+                                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                                    <button type="submit" class="btn btn-primary" [disabled]="!landForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                                </div>
+                            </div>
+                        </form>
+                    </tab>
+
+                    <tab heading="Land areas" (select)="tabSelected($event)" (deselect) = "tabDeSelected($event)">
+                        <item-panel-group>
+                            <ng-container [ngTemplateOutlet]="mAreaItems"></ng-container>
+                        </item-panel-group>
+                        <ng-template #mAreaItems>
+                            <ng-container *ngFor="let area of areas">
+                                <item-panel label= "{{ area.name }}"  sublabel="{{ area.description }}" expand="false" disabled="false" (expanded)="onAreaExpanded($event)" (collapsed)="onAreaCollapsed($event)">
+                                    <item-summary>
+                                        <div class="col-sm-6">
+                                           Cadastrial ID : {{ area.cadastralId }}
+                                        </div>
+                                        <div class="col-sm-6">
+                                           Soil Type: {{ area.AreaDtoSoilType }}
+                                        </div>
+                                    </item-summary>
+                                    <div class="col-sm-11">
+                                        <area-calendar [data]="example_data" color="#3F6F21" overview=1 handler="print"></area-calendar>
+                                    </div>
+                                </item-panel>
+                            </ng-container>
                         </ng-template>
                     </tab>
-                    <tab heading="Map"> MAP</tab>
-                    <tab heading="Statistics">Statistics</tab>
+                    <tab heading="Monitoring statons" (select)="tabSelected($event)" (deselect) = "tabDeSelected($event)">
+                        <item-panel-group>
+                            <ng-container [ngTemplateOutlet]="mMonStationsItems"></ng-container>
+                        </item-panel-group>
+                        <ng-template #mMonStationsItems>
+                            <ng-container *ngFor="let mst of monitoringStations">
+                                <item-panel label= "{{ mst.name }}"  sublabel="{{ mst.description }}" expand="false" disabled="false" (expanded)="onMtsExpanded($event)" (collapsed)="onMtsCollapsed($event)">
+                                    <item-summary>
+                                        Collapsed Item1 ....
+                                        bb
+                                        bb
+                                        bb
+                                        bb
+                                        bb
+                                    </item-summary>
+                                    Item 1 is description
+                                </item-panel>
+                            </ng-container>
+                        </ng-template>
+                    </tab>
                 </tabset>
             </div>
         

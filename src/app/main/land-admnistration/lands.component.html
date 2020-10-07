@@ -23,172 +23,17 @@
         <div class="m-portlet">
             <div class="m-portlet__body">
                 <div class="omica-grid two-column host-animate-in">
+
                     <div class="core-rail" role="main">
                         <!-- BEGIN: Land List -->
-                        <omica-land-list class="omica-box"> </omica-land-list>
-                        
+                        <omica-land-list class="omica-box" (openLand)="viewFarm($event)" > </omica-land-list>
+                    </div>    
                     <div class="right-rail" role = "presentation">
-                        <section class="artdeco-card" >
+                        <section class="omica-card">
                             <omica-map></omica-map>
                         </section>
                     </div>
-                  </div>
-            </div>
-            <div class="m-portlet__body display-hidden" >
-                    <tabset>
-                        <tab heading="Table" id="tab1">
-                            This is the table
-                            <form class="horizontal-form" autocomplete="off">
-                                <div class="m-form m-form--label-align-right">
-                                    <div class="row align-items-center m--margin-bottom-10">
-                                        <div class="col-xl-12">
-                                            <div class="form-group m-form__group align-items-center">
-                                                <div class="input-group">
-                                                    <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
-                                                    <span class="input-group-btn">
-                                                        <button (click)="getData($event)" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row m--margin-bottom-10" [hidden]="!advancedFiltersAreShown">
-                                        <div class="col-md-12">
-                                            <div class="m-separator m-separator--dashed"></div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="NameFilter">{{l("Name")}}</label>
-                                                <input type="text" class="form-control" id="NameFilter" name="nameFilter" [(ngModel)]="nameFilter">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="DescriptionFilter">{{l("Description")}}</label>
-                                                <input type="text" class="form-control" id="DescriptionFilter" name="descriptionFilter" [(ngModel)]="descriptionFilter">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="MinLatitudeFilter">{{l("MinMax")}} {{l("Latitude")}}</label>
-                                                <div class="input-group">
-                                                    <input type="number" class="form-control" id="MinLatitudeFilter" [(ngModel)]="minLatitudeFilter" placeholder="{{l('MinValue')}}" name="minLatitudeFilter" />
-                                                    <input type="number" class="form-control" [(ngModel)]="maxLatitudeFilter" placeholder="{{l('MaxValue')}}" name="maxLatitudeFilter" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="MinLongitudeFilter">{{l("MinMax")}} {{l("Longitude")}}</label>
-                                                <div class="input-group">
-                                                    <input type="number" class="form-control" id="MinLongitudeFilter" [(ngModel)]="minLongitudeFilter" placeholder="{{l('MinValue')}}" name="minLongitudeFilter" />
-                                                    <input type="number" class="form-control" [(ngModel)]="maxLongitudeFilter" placeholder="{{l('MaxValue')}}" name="maxLongitudeFilter" />
-                                                </div>
-                                            </div>
-                                        </div>
-    
-                                    </div>
-                                    <div class="row margin-bottom-10">
-                                        <div class="col-sm-12">
-                                            <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
-                                            <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                            <!-- -->
-                            <!--<Primeng-Datatable-Start>-->
-                            <div class="row align-items-center">
-                                <div class="primeng-datatable-container"
-                                     [busyIf]="primengTableHelper.isLoading">
-                                    <p-table #dataTable
-                                             (onLazyLoad)="getData($event)"
-                                             [value]="records"
-                                             rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
-                                             [paginator]="false"
-                                             [lazy]="true"
-                                             [scrollable]="true"
-                                             ScrollWidth="100%"
-                                             [responsive]="false"
-                                             [resizableColumns]="false">
-    
-                                        <ng-template pTemplate="header">
-                                            <tr>
-                                                <th style="width: 130px" [hidden]="!isGrantedAny('Pages.Administration.Farms.Edit', 'Pages.Administration.Farms.Delete')">{{l('Actions')}}</th>
-                                                <th style="width: 150px" p-column="farm.name">
-                                                    {{l('Name')}}
-                                                    <p-sortIcon field="name"></p-sortIcon>
-                                                </th>
-                                                <th style="width: 150px" p-column="farm.description">
-                                                    {{l('Description')}}
-                                                    <p-sortIcon field="farm.description"></p-sortIcon>
-                                                </th>
-                                                <th style="width: 150px" p-Column="farm.latitude">
-                                                    {{l('Latitude')}}
-                                                    <p-sortIcon field="farm.latitude"></p-sortIcon>
-                                                </th>
-                                                <th style="width: 150px" p-column="farm.longitude">
-                                                    {{l('Longitude')}}
-                                                    <p-sortIcon field="farm.longitude"></p-sortIcon>
-                                                </th>
-                                            </tr>
-                                        </ng-template>
-    
-                                        <ng-template pTemplate="body" let-record="$implicit" let-rowData>
-                                            <tr>
-                                                <td style="width: 130px"
-                                                    [hidden]="!isGrantedAny('Pages.Administration.Farms.Edit', 'Pages.Administration.Farms.Delete')">
-                                                    <div class="btn-group dropdown" dropdown container="body">
-                                                        <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
-                                                            <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
-                                                        </button>
-                                                        <ul class="dropdown-menu" *dropdownMenu>
-                                                            <li>
-                                                                <a href="javascript:;"
-                                                                   (click)="viewFarm(record)">{{l('View')}}</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="javascript:;" *ngIf="permission.isGranted('Pages.Administration.Farms.Edit')"
-                                                                   (click)="createOrEditFarmModal.show(record.farm.id)">{{l('Edit')}}</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="javascript:;" *ngIf="permission.isGranted('Pages.Administration.Farms.Delete')"
-                                                                   (click)="deleteFarm(record.farm)">{{l('Delete')}}</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="javascript:;" *ngIf="entityHistoryEnabled"
-                                                                   (click)="showHistory(record.farm)">{{l('History')}}</a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </td>
-                                                <td style="width:150px">
-                                                    {{record.name}}
-                                                </td>
-                                                <td style="width:150px">
-                                                    {{record.description}}
-                                                </td>
-                                                <td style="width:150px">
-                                                    {{record.latitude}}
-                                                </td>
-                                                <td style="width:150px">
-                                                    {{record.longitude}}
-                                                </td>
-    
-                                            </tr>
-                                        </ng-template>
-    
-                                    </p-table>
-                                    <div class="primeng-no-data" *ngIf="records.length == 0">
-                                        {{l('NoData')}}
-                                    </div>
-                                </div>
-                            </div>
-                            <!--<Primeng-Datatable-End>-->
-                        </tab>
-                        <tab heading="Map"> MAP</tab>
-                        <tab heading="Statistics">Statistics</tab>
-                    </tabset>
+                </div>  
             </div>
         </div>
     </div>

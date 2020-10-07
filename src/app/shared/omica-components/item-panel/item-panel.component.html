@@ -1,0 +1,21 @@
+<div class="item-panel-header" [tabIndex]="disabled ? -1 : 0" (keydown.enter)="clickEvent()" (click)="clickEvent()" >
+  <ng-template [cdkPortalOutlet]="expansionPanelHeader"></ng-template>
+  <div class="item-panel-header-content" [class.mat-disabled]="disabled" *ngIf="!expansionPanelHeader">
+    <img class="item-icon" src="../../../../assets/ico/favicon-32x32.png" />
+    <div *ngIf="label || expansionPanelLabel" class="item-label">
+      <ng-template [cdkPortalOutlet]="expansionPanelLabel"></ng-template>
+      <ng-template [ngIf]="!expansionPanelLabel">{{ label }}</ng-template>
+    </div>
+    <div *ngIf="sublabel || expansionPanelSublabel" class="item-sublabel">
+      <ng-template [cdkPortalOutlet]="expansionPanelSublabel"></ng-template>
+      <ng-template [ngIf]="!expansionPanelSublabel">{{ sublabel }}</ng-template>
+    </div>
+    <img class="item-icon" src="../../../../assets/ico/favicon-32x32.png" *ngIf="!disabled" [@tdRotate]="expand" />
+  </div>
+</div>
+<div class="item-content" [@tdCollapse]="!expand">
+  <ng-content></ng-content>
+</div>
+<div class="item-summary" [@tdCollapse]="expand">
+  <ng-content select="item-summary"></ng-content>
+</div>

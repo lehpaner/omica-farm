@@ -7,7 +7,7 @@
 // ReSharper disable InconsistentNaming
 
 import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators';
-import { BehaviorSubject, Observable, throwError as _observableThrow, of as _observableOf } from 'rxjs';
+import { Observable, throwError as _observableThrow, of as _observableOf } from 'rxjs';
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
 
@@ -17,7 +17,6 @@ export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
 @Injectable()
 export class AccountServiceProxy {
-   
     private http: HttpClient;
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -4053,9 +4052,338 @@ export class ServicesServiceProxy {
         this.baseUrl = baseUrl ? baseUrl : "";
     }
 
-    
+    /**
+     * @return Success
+     */
+    landsGet(): Observable<ListResultDtoOfFarmDto> {
+        let url_ = this.baseUrl + "/api/services/lands";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processLandsGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processLandsGet(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfFarmDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfFarmDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processLandsGet(response: HttpResponseBase): Observable<ListResultDtoOfFarmDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfFarmDto.fromJS(resultData200) : new ListResultDtoOfFarmDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfFarmDto>(<any>null);
+    }
+
+    /**
+     * @param data (optional) 
+     * @return Success
+     */
+    landsPost(data: FarmDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/lands";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(data);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processLandsPost(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processLandsPost(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processLandsPost(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    landGet(id: number): Observable<FarmDto> {
+        let url_ = this.baseUrl + "/api/services/lands/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processLandGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processLandGet(<any>response_);
+                } catch (e) {
+                    return <Observable<FarmDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FarmDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processLandGet(response: HttpResponseBase): Observable<FarmDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? FarmDto.fromJS(resultData200) : new FarmDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FarmDto>(<any>null);
+    }
 }
 
+@Injectable()
+export class LandsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    areasGet(id: number): Observable<ListResultDtoOfAreaDto> {
+        let url_ = this.baseUrl + "/api/services/lands/{id}/areas";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processAreasGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processAreasGet(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfAreaDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfAreaDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processAreasGet(response: HttpResponseBase): Observable<ListResultDtoOfAreaDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfAreaDto.fromJS(resultData200) : new ListResultDtoOfAreaDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfAreaDto>(<any>null);
+    }
+
+    /**
+     * @param data (optional) 
+     * @return Success
+     */
+    areasPost(id: number, data: AreaDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/lands/{id}/areas";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(data);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processAreasPost(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processAreasPost(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processAreasPost(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    monStations(id: number): Observable<ListResultDtoOfMonitoringStationDto> {
+        let url_ = this.baseUrl + "/api/services/lands/{id}/monStations";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processMonStations(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processMonStations(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfMonitoringStationDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfMonitoringStationDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processMonStations(response: HttpResponseBase): Observable<ListResultDtoOfMonitoringStationDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfMonitoringStationDto.fromJS(resultData200) : new ListResultDtoOfMonitoringStationDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfMonitoringStationDto>(<any>null);
+    }
+}
 
 @Injectable()
 export class LanguageServiceProxy {
@@ -4949,6 +5277,60 @@ export class MonitoringStationsServiceProxy {
             }));
         }
         return _observableOf<PagedResultDtoOfGetMonitoringStationForView>(<any>null);
+    }
+
+    /**
+     * @param farm_id (optional) 
+     * @return Success
+     */
+    getStationsOfLand(farm_id: number | null | undefined): Observable<ListResultDtoOfMonitoringStationDto> {
+        let url_ = this.baseUrl + "/api/services/app/MonitoringStations/getStationsOfLand?";
+        if (farm_id !== undefined)
+            url_ += "farm_id=" + encodeURIComponent("" + farm_id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetStationsOfLand(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetStationsOfLand(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfMonitoringStationDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfMonitoringStationDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetStationsOfLand(response: HttpResponseBase): Observable<ListResultDtoOfMonitoringStationDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfMonitoringStationDto.fromJS(resultData200) : new ListResultDtoOfMonitoringStationDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfMonitoringStationDto>(<any>null);
     }
 
     /**
@@ -14927,7 +15309,7 @@ export interface IGetFarmForView {
 }
 
 export class FarmDto implements IFarmDto {
-    
+    id!: number | undefined;
     name!: string | undefined;
     description!: string | undefined;
     latitude!: number | undefined;
@@ -14936,7 +15318,6 @@ export class FarmDto implements IFarmDto {
     city!: string | undefined;
     zipCode!: string | undefined;
     country!: FarmDtoCountry | undefined;
-    id!: number | undefined;
 
     constructor(data?: IFarmDto) {
         if (data) {
@@ -14949,6 +15330,7 @@ export class FarmDto implements IFarmDto {
 
     init(data?: any) {
         if (data) {
+            this.id = data["id"];
             this.name = data["name"];
             this.description = data["description"];
             this.latitude = data["latitude"];
@@ -14957,7 +15339,6 @@ export class FarmDto implements IFarmDto {
             this.city = data["city"];
             this.zipCode = data["zipCode"];
             this.country = data["country"];
-            this.id = data["id"];
         }
     }
 
@@ -14970,6 +15351,7 @@ export class FarmDto implements IFarmDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
         data["name"] = this.name;
         data["description"] = this.description;
         data["latitude"] = this.latitude;
@@ -14978,12 +15360,12 @@ export class FarmDto implements IFarmDto {
         data["city"] = this.city;
         data["zipCode"] = this.zipCode;
         data["country"] = this.country;
-        data["id"] = this.id;
         return data; 
     }
 }
 
 export interface IFarmDto {
+    id: number | undefined;
     name: string | undefined;
     description: string | undefined;
     latitude: number | undefined;
@@ -14992,7 +15374,6 @@ export interface IFarmDto {
     city: string | undefined;
     zipCode: string | undefined;
     country: FarmDtoCountry | undefined;
-    id: number | undefined;
 }
 
 export class GetFarmForEditOutput implements IGetFarmForEditOutput {
@@ -16626,6 +17007,110 @@ export interface IListResultDtoOfAreaDto {
     items: AreaDto[] | undefined;
 }
 
+export class ListResultDtoOfMonitoringStationDto implements IListResultDtoOfMonitoringStationDto {
+    items!: MonitoringStationDto[] | undefined;
+
+    constructor(data?: IListResultDtoOfMonitoringStationDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(MonitoringStationDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListResultDtoOfMonitoringStationDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListResultDtoOfMonitoringStationDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IListResultDtoOfMonitoringStationDto {
+    items: MonitoringStationDto[] | undefined;
+}
+
+export class MonitoringStationDto implements IMonitoringStationDto {
+    name!: string | undefined;
+    dataString!: string | undefined;
+    latitude!: number | undefined;
+    longitude!: number | undefined;
+    description!: string | undefined;
+    farmId!: number | undefined;
+    id!: number | undefined;
+
+    constructor(data?: IMonitoringStationDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.dataString = data["dataString"];
+            this.latitude = data["latitude"];
+            this.longitude = data["longitude"];
+            this.description = data["description"];
+            this.farmId = data["farmId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): MonitoringStationDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new MonitoringStationDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["dataString"] = this.dataString;
+        data["latitude"] = this.latitude;
+        data["longitude"] = this.longitude;
+        data["description"] = this.description;
+        data["farmId"] = this.farmId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IMonitoringStationDto {
+    name: string | undefined;
+    dataString: string | undefined;
+    latitude: number | undefined;
+    longitude: number | undefined;
+    description: string | undefined;
+    farmId: number | undefined;
+    id: number | undefined;
+}
+
 export class GetLanguagesOutput implements IGetLanguagesOutput {
     defaultLanguageName!: string | undefined;
     items!: ApplicationLanguageListDto[] | undefined;
@@ -17495,66 +17980,6 @@ export class GetMonitoringStationForView implements IGetMonitoringStationForView
 export interface IGetMonitoringStationForView {
     monitoringStation: MonitoringStationDto | undefined;
     farmName: string | undefined;
-}
-
-export class MonitoringStationDto implements IMonitoringStationDto {
-    name!: string | undefined;
-    dataString!: string | undefined;
-    latitude!: number | undefined;
-    longitude!: number | undefined;
-    description!: string | undefined;
-    farmId!: number | undefined;
-    id!: number | undefined;
-
-    constructor(data?: IMonitoringStationDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.name = data["name"];
-            this.dataString = data["dataString"];
-            this.latitude = data["latitude"];
-            this.longitude = data["longitude"];
-            this.description = data["description"];
-            this.farmId = data["farmId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): MonitoringStationDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new MonitoringStationDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name;
-        data["dataString"] = this.dataString;
-        data["latitude"] = this.latitude;
-        data["longitude"] = this.longitude;
-        data["description"] = this.description;
-        data["farmId"] = this.farmId;
-        data["id"] = this.id;
-        return data; 
-    }
-}
-
-export interface IMonitoringStationDto {
-    name: string | undefined;
-    dataString: string | undefined;
-    latitude: number | undefined;
-    longitude: number | undefined;
-    description: string | undefined;
-    farmId: number | undefined;
-    id: number | undefined;
 }
 
 export class GetMonitoringStationForEditOutput implements IGetMonitoringStationForEditOutput {
